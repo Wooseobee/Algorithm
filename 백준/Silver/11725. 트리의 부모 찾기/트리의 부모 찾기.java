@@ -2,6 +2,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 //DFS or BFS
 public class Main {
@@ -34,19 +36,36 @@ public class Main {
             list[x].add(y);
             list[y].add(x);
         }
-        dfs(1);
+//        dfs(1);
+        bfs(1);
         for (int i = 2; i <= N; i++) {
             System.out.println(parent[i]);
         }
     }
+    //    public static void dfs(int v) {
+//        visit[v] = true;
+//
+//        for (int i : list[v]) {
+//            if (!visit[i]) {
+//                parent[i]=v;
+//                dfs(i);
+//            }
+//        }
+//    }
+    public static void bfs(int v) {
+        Queue<Integer> queue = new LinkedList<>();
 
-    public static void dfs(int v) {
-        visit[v] = true;
+        queue.offer(v);
 
-        for (int i : list[v]) {
-            if (!visit[i]) {
-                parent[i]=v;
-                dfs(i);
+        while (!queue.isEmpty()) {
+            int p = queue.poll();
+
+            for (int item : list[p]) {
+                if (visit[item]==false) {
+                    visit[item] = true;
+                    parent[item] = p;
+                    queue.offer(item);
+                }
             }
         }
     }
