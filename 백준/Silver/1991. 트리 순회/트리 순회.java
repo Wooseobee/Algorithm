@@ -2,87 +2,85 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
-    static ArrayList<Integer>[] list;
-    static boolean visit[];
-    static String flag[];
+    static class Node {
+        int left;
+        int right;
+
+        public Node(int left, int right) {
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    static List<Node>[] list;
+    static StringBuilder sb = new StringBuilder();
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
 
         int N = Integer.parseInt(br.readLine());
+        list = new ArrayList[N + 1];
 
-        list = new ArrayList[N];
-        visit = new boolean[N+1];
-        flag = new String[N+1];
-
-        for (int i = 0; i < N; i++) {
+        for (int i = 1; i < N + 1; i++) {
+            list[i] = new ArrayList<>();
+        }
+        for (int i = 1; i < N + 1; i++) {
             String s[] = br.readLine().split(" ");
 
-            String s1 = s[0];
-            String s2 = s[1];
-            String s3 = s[2];
+            int root = s[0].charAt(0) - 'A' + 1;
+            int left = s[1].charAt(0) - 'A' + 1;
+            int right = s[2].charAt(0) - 'A' + 1;
 
-            int index = s1.charAt(0) - 65;
-            int left = s2.charAt(0) - 65;
-            int right = s3.charAt(0) - 65;
-
-            list[index] = new ArrayList<>();
-            flag[index] = "no";
-
-            if (!s2.equals(".")) {
-                list[index].add(left);
-                flag[index] = "left";
-            }
-            if (!s3.equals(".")) {
-                list[index].add(right);
-                if (flag[index].equals("left")) {
-                    flag[index] = "both";
-                } else{
-                    flag[index] = "right";
-                }
-            }
+            list[root].add(new Node(left, right));
         }
 
         br.close();
-
-        preorder(sb, 0);
+        preorder(1);
         System.out.println(sb);
         sb.setLength(0);
-
-        inorder(sb, 0);
+        inorder(1);
         System.out.println(sb);
         sb.setLength(0);
-
-        postorder(sb, 0);
+        postorder(1);
         System.out.println(sb);
     }
 
-    private static void preorder(StringBuilder sb, int index) {
-        sb.append((char)(index+65));
-        visit[index] = true;
-        for (int i : list[index]) {
-            if (!visit[i]) {
-                preorder(sb, i);
+    static void preorder(int root) {
+        for (Node node : list[root]) {
+            sb.append((char)(root + 'A' - 1));
+            if (node.left != (int) (('.') - 'A' + 1)) {
+                preorder(node.left);
+            }
+            if (node.right != (int) (('.') - 'A' + 1)) {
+                preorder(node.right);
             }
         }
     }
-    private static void inorder(StringBuilder sb, int index) {
-        if (flag[index].equals("left")||flag[index].equals("both")) {
-            inorder(sb, list[index].get(0));
-        }
-        sb.append((char) (index + 65));
-        if (flag[index].equals("both")) {
-            inorder(sb, list[index].get(1));
-        } else if (flag[index].equals("right")) {
-            inorder(sb, list[index].get(0));
+
+    static void inorder(int root) {
+        for (Node node : list[root]) {
+            if (node.left != (int) (('.') - 'A' + 1)) {
+                inorder(node.left);
+            }
+            sb.append((char)(root + 'A' - 1));
+            if (node.right != (int) (('.') - 'A' + 1)) {
+                inorder(node.right);
+            }
         }
     }
-    private static void postorder(StringBuilder sb, int index) {
-        for (int i: list[index]) {
-            postorder(sb, i);
+
+    static void postorder(int root) {
+        for (Node node : list[root]) {
+            if (node.left != (int) (('.') - 'A' + 1)) {
+                postorder(node.left);
+            }
+            if (node.right != (int) (('.') - 'A' + 1)) {
+                postorder(node.right);
+            }
+            sb.append((char)(root + 'A' - 1));
         }
-        sb.append((char) (index + 65));
     }
 }
