@@ -52,7 +52,7 @@ public class Main {
             graph.get(v).add(new Node(w, cost));
         }
 
-        Dijkstra(n, x);
+        Dijkstra(x);
 
         for (int i = 1; i < n + 1; i++) {
             if (dist[i] == Integer.MAX_VALUE) {
@@ -63,7 +63,7 @@ public class Main {
         }
     }
 
-    public static void Dijkstra(int n, int start) {
+    public static void Dijkstra(int start) {
         PriorityQueue<Node> pq = new PriorityQueue<>((o1, o2) -> o1.cost - o2.cost);
         pq.add(new Node(start, 0));
 
