@@ -30,6 +30,9 @@ public class Main {
             int[] nowArr = q.poll();
             int now = nowArr[0];
             int cnt = nowArr[1];
+            if (cnt > min) {
+                continue;
+            }
 
             if (now * 2 <= 100_000 && !visited[now * 2]) {
                 q.add(new int[]{now * 2, cnt});
