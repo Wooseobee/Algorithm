@@ -23,7 +23,9 @@ public class Main {
                 choice[j] = Integer.parseInt(s[j - 1]);
             }
             for (int j = 1; j <= n; j++) {
-                dfs(j);
+                if (!finish[j]) {
+                    dfs(j);
+                }
             }
             System.out.println(n - cnt);
         }
@@ -34,7 +36,7 @@ public class Main {
             finish[now] = true;
             cnt++;
         }
-
+        
         visited[now] = true;
         int next = choice[now];
 
