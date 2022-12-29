@@ -3,27 +3,20 @@ import java.util.HashMap;
 class Solution {
     public String solution(String[] participant, String[] completion) {
         String answer = "";
-        HashMap<String, Integer> list = new HashMap<>();
+        HashMap<String, Integer> hashMap = new HashMap<>();
 
-        for (int i = 0; i < participant.length; i++) {
-            if (!list.containsKey(participant[i])) {
-                list.put(participant[i], 1);
-            } else {
-                list.put(participant[i], list.get(participant[i]) + 1);
-            }
+        for (String runner : participant) {
+            hashMap.put(runner, hashMap.getOrDefault(runner, 0) + 1);
+        }
+        for (String runner : completion) {
+            hashMap.put(runner, hashMap.get(runner) - 1);
         }
 
-        for (int i = 0; i < completion.length; i++) {
-            if (list.get(completion[i]) == 1) {
-                list.remove(completion[i]);
-            } else {
-                list.put(completion[i], list.get(completion[i]) - 1);
+        for (String key : hashMap.keySet()) {
+            if (hashMap.get(key) != 0) {
+                answer = key;
+                break;
             }
-        }
-        
-
-        for (String Key : list.keySet()) {
-            answer = Key;
         }
 
         return answer;
