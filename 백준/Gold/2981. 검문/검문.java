@@ -4,10 +4,10 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int n = Integer.parseInt(br.readLine());
         int[] m = new int[n];
-        int min = Integer.MAX_VALUE;
 
         for (int i = 0; i < n; i++) {
             m[i] = Integer.parseInt(br.readLine());
@@ -21,8 +21,11 @@ public class Main {
         }
 
         for (int i = 2; i <= gcd; i++) {
-            if (gcd % i == 0) System.out.print(i + " ");
+            if (gcd % i == 0) bw.write(i + " ");
         }
+        
+        bw.flush();
+        bw.close();
         br.close();
     }
 
