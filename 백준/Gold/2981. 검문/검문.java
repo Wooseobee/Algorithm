@@ -17,22 +17,25 @@ public class Main {
 
         int gcd = m[1] - m[0];
         for (int i = 2; i < n; i++) {
-            gcd = gcd(gcd, m[i] - m[i - 1]);
+            gcd = GCD(gcd, m[i] - m[i - 1]);
         }
 
-        for (int i = 2; i <= gcd; i++) {
+        for (int i = 2; i <= gcd / 2; i++) {
             if (gcd % i == 0) bw.write(i + " ");
         }
-        
+
+        bw.write(gcd + "");
+
         bw.flush();
         bw.close();
         br.close();
     }
 
-    static int gcd(int a, int b) {
+    static int GCD(int a, int b) {
         if (b == 0) {
             return a;
+        } else {
+            return GCD(b, a % b);
         }
-        return gcd(b, a % b);
     }
 }
