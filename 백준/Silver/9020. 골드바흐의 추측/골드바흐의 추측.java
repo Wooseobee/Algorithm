@@ -1,26 +1,28 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int T = Integer.parseInt(br.readLine());
 
         for (int i = 0; i < T; i++) {
             int n = Integer.parseInt(br.readLine());
-            binarySearch(n / 2);
+            Search(n / 2);
         }
 
+        bw.flush();
+        bw.close();
         br.close();
     }
 
-    static void binarySearch(int mid) {
+    static void Search(int mid) throws IOException {
         int left = mid, right = mid;
         while (left > 1 && right < mid * 2) {
             if (isDecimal(left) && isDecimal(right)) {
-                System.out.println(left + " " + right);
+                bw.write(left + " " + right + "\n");
                 return;
             } else {
                 left--;
