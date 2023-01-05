@@ -23,27 +23,25 @@ public class Main {
             B = B.multiply(new BigInteger(st.nextToken()));
         }
 
-        BigInteger big = A.compareTo(B) > 0 ? A : B;
-        BigInteger small = A.compareTo(B) > 0 ? B : A;
-        BigInteger zero = new BigInteger("0");
-
-        while (true) {
-            BigInteger mod = big.mod(small);
-
-            if (mod.compareTo(zero) == 0) break;
-
-            big = small;
-            small = mod;
-        }
-        sb.append(small.toString());
+        BigInteger answer = A.compareTo(B) > 0 ? gcd(A, B) : gcd(B, A);
+        sb.append(answer);
 
         if (sb.length() > 9) {
             bw.write(sb.substring(sb.length() - 9));
         } else {
             bw.write(String.valueOf(sb));
         }
+
         bw.flush();
         bw.close();
         br.close();
+    }
+
+    static BigInteger gcd(BigInteger A, BigInteger B) {
+        BigInteger zero = new BigInteger("0");
+        if (B.compareTo(zero) == 0) {
+            return A;
+        }
+        return gcd(B, A.mod(B));
     }
 }
