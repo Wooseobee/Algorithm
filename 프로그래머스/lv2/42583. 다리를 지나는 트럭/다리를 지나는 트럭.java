@@ -36,10 +36,12 @@ class Solution {
                 onBridgeTruck truck = it.next();
                 now += truck.weight;
                 truck.onTime++;
-                if (truck.onTime == bridge_length) now -= truck.weight;
             }
 
-            onBridge.removeIf(truck -> truck.onTime == bridge_length);
+            if (!onBridge.isEmpty() &&onBridge.peek().onTime == bridge_length) {
+                onBridgeTruck truck = onBridge.poll();
+                now -= truck.weight;
+            }
 
             if (now + next <= weight && !stayTrucks.isEmpty()) {
                 onBridge.add(new onBridgeTruck(stayTrucks.poll(), 0));
