@@ -19,13 +19,12 @@ class Solution {
 
         Queue<Integer> stayTrucks = new LinkedList<>();
         Queue<onBridgeTruck> onBridge = new LinkedList<>();
-        Queue<Integer> finishTruck = new LinkedList<>();
 
         for (int i = 0; i < trucks; i++) {
             stayTrucks.add(truck_weights[i]);
         }
 
-        while (finishTruck.size() != trucks) {
+        while (!stayTrucks.isEmpty() || !onBridge.isEmpty()) {
             int now = 0;
             int next = 0;
 
@@ -37,10 +36,7 @@ class Solution {
                 onBridgeTruck truck = it.next();
                 now += truck.weight;
                 truck.onTime++;
-                if (truck.onTime == bridge_length) {
-                    finishTruck.add(truck.weight);
-                    now -= truck.weight;
-                }
+                if (truck.onTime == bridge_length) now -= truck.weight;
             }
 
             onBridge.removeIf(truck -> truck.onTime == bridge_length);
