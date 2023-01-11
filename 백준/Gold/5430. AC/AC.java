@@ -6,7 +6,7 @@ public class Main {
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
     static Queue<Character> funcQueue = new LinkedList<>();
-    static List<Integer> arrList = new ArrayList<>();
+    static Deque<Integer> deque = new ArrayDeque<>();
     static boolean isFront;
 
     public static void main(String[] args) throws IOException {
@@ -24,14 +24,15 @@ public class Main {
             int n = Integer.parseInt(br.readLine());
 
             String[] input = br.readLine().replace("[", "").replace("]", "").split(",");
+            
             for (int j = 0; j < n; j++) {
-                arrList.add(Integer.parseInt(input[j]));
+                deque.add(Integer.parseInt(input[j]));
             }
 
             function();
 
             funcQueue.clear();
-            arrList.clear();
+            deque.clear();
         }
 
         bw.flush();
@@ -47,22 +48,24 @@ public class Main {
                     isFront = !isFront;
                     break;
                 case 'D':
-                    if (arrList.isEmpty()) {
+                    if (deque.isEmpty()) {
                         bw.write("error\n");
                         return;
                     }
                     if (isFront) {
-                        arrList.remove(0);
+                        deque.removeFirst();
                     } else {
-                        arrList.remove(arrList.size() - 1);
+                        deque.removeLast();
                     }
                     break;
             }
         }
 
-        if (!isFront) {
-            Collections.reverse(arrList);
+        bw.write("[");
+        while (!deque.isEmpty()) {
+            bw.write(isFront ? deque.removeFirst().toString() : deque.removeLast().toString());
+            if (deque.size() != 0) bw.write(",");
         }
-        bw.write(arrList.toString().replace(", ", ",") + "\n");
+        bw.write("]\n");
     }
 }
