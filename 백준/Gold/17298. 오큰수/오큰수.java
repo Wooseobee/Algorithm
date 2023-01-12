@@ -12,17 +12,22 @@ public class Main {
         String[] input = br.readLine().split(" ");
         int[] answer = new int[n];
 
-        for (int i = n - 1; i >= 0; i--) {
+        for (int i = input.length - 1; i >= 0; i--) {
             int now = Integer.parseInt(input[i]);
-            while (!stack.isEmpty() && stack.peek() <= now) {
-                stack.pop();
+            while (!stack.isEmpty()) {
+                int top = stack.peek();
+                if (top > now) {
+                    answer[i] = top;
+                    stack.add(now);
+                    break;
+                } else {
+                    stack.pop();
+                }
             }
             if (stack.isEmpty()) {
+                stack.add(now);
                 answer[i] = -1;
-            } else {
-                answer[i] = stack.peek();
             }
-            stack.add(now);
         }
 
         for (int i = 0; i < n; i++) {
