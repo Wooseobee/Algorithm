@@ -1,19 +1,15 @@
-import java.util.PriorityQueue;
+import java.util.Arrays;
 
 class Solution {
     public int[] solution(int[] array, int[][] commands) {
         int[] answer = new int[commands.length];
 
         for (int i = 0; i < commands.length; i++) {
-            PriorityQueue<Integer> pq = new PriorityQueue<>();
+            int[] arr = Arrays.copyOfRange(array, commands[i][0] - 1, commands[i][1]);
 
-            for (int j = commands[i][0] - 1; j < commands[i][1]; j++) {
-                pq.add(array[j]);
-            }
-            for (int j = 0; j < commands[i][2] - 1; j++) {
-                pq.poll();
-            }
-            answer[i] = pq.poll();
+            Arrays.sort(arr);
+
+            answer[i] = arr[commands[i][2] - 1];
         }
 
         return answer;
