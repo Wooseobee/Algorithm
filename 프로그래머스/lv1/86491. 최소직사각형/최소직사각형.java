@@ -1,25 +1,12 @@
 class Solution {
     public int solution(int[][] sizes) {
-        int answer = 0;
-        int max = 0, min = 1_001;
+        int x = 0, y = 0;
 
-        for (int i = 0; i < sizes.length; i++) {
-            if (max < sizes[i][0]) {
-                max = sizes[i][0];
-                min = sizes[i][1];
-            }
-            if (max < sizes[i][1]) {
-                max = sizes[i][1];
-                min = sizes[i][0];
-            }
+        for (int[] card : sizes) {
+            x = Math.max(x, Math.max(card[0], card[1]));
+            y = Math.max(y, Math.min(card[0], card[1]));
         }
 
-        for (int i = 0; i < sizes.length; i++) {
-            if (sizes[i][0] > min && sizes[i][1] > min) {
-                min = Math.min(sizes[i][0], sizes[i][1]);
-            }
-        }
-
-        return max * min;
+        return x * y;
     }
 }
