@@ -23,12 +23,12 @@ public class Main {
             dp[i][0] = 1;
         }
 
-        for (int i = 1; i <= k; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (i >= coins[j]) {
-                    dp[j][i] = dp[j - 1][i] + dp[j][i - coins[j]];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= k; j++) {
+                if (j >= coins[i]) {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - coins[i]];
                 } else {
-                    dp[j][i] = dp[j - 1][i];
+                    dp[i][j] = dp[i - 1][j];
                 }
             }
         }
