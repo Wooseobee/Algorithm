@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int n, m, cnt, max = Integer.MIN_VALUE, startI, startJ, endI, endJ, min = Integer.MAX_VALUE;
+    static int n, m, cnt, max = Integer.MIN_VALUE;
     static char[][] map;
     static boolean[][] visited;
     static int[] moveX = new int[]{-1, 1, 0, 0};
@@ -38,12 +38,7 @@ public class Main {
             }
         }
 
-        for (int k = 0; k < n; k++) {
-            Arrays.fill(visited[k], false);
-        }
-
-        bfs(startI, startJ);
-        System.out.println(min);
+        System.out.println(max);
 
         br.close();
     }
@@ -77,34 +72,7 @@ public class Main {
                     q.add(new Land(y + moveY[k], x + moveX[k], count + 1));
                 }
             }
-            if (max < count) {
-                startI = i;
-                startJ = j;
-                endI = y;
-                endJ = x;
-                max = count;
-            }
-        }
-    }
-
-    static void bfs(int i, int j) {
-        Queue<Land> q = new LinkedList<>();
-        q.add(new Land(i, j, 0));
-
-        while (!q.isEmpty()) {
-            Land land = q.poll();
-            int x = land.j;
-            int y = land.i;
-            int count = land.count;
-            if (visited[y][x]) continue;
-            visited[y][x] = true;
-
-            for (int k = 0; k < 4; k++) {
-                if (y + moveY[k] >= 0 && x + moveX[k] >= 0 && y + moveY[k] < n && x + moveX[k] < m && map[y + moveY[k]][x + moveX[k]] == 'L') {
-                    q.add(new Land(y + moveY[k], x + moveX[k], count + 1));
-                }
-            }
-            if (x == endJ && y == endI) min = Math.min(min, count);
+            max = Math.max(max, count);
         }
     }
 }
