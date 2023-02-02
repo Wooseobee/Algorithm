@@ -1,8 +1,5 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     static int f, s, g, u, d, cnt = 0;
@@ -18,11 +15,8 @@ public class Main {
         u = Integer.parseInt(input[3]);
         d = Integer.parseInt(input[4]);
 
-        if (bfs()) {
-            System.out.println(cnt);
-        } else {
-            System.out.println("use the stairs");
-        }
+        if (bfs()) System.out.println(cnt);
+        else System.out.println("use the stairs");
         br.close();
     }
 
@@ -39,7 +33,7 @@ public class Main {
     static boolean bfs() {
         Queue<Elevator> q = new LinkedList<>();
         q.add(new Elevator(s, 0));
-        boolean visited[] = new boolean[1_000_001];
+        boolean[] visited = new boolean[1_000_001];
 
         while (!q.isEmpty()) {
             Elevator now = q.poll();
