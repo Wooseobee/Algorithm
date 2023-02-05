@@ -65,14 +65,11 @@ public class Main {
     }
 
     static boolean isFamily(int[] parent, int a, int b) {
-        int aParent = parent[a], bParent = parent[b];
         while (parent[a] != 0) {
-            aParent = parent[a];
-            a = aParent;
+            a = parent[a];
         }
         while (parent[b] != 0) {
-            bParent = parent[b];
-            b = bParent;
+            b = parent[b];
         }
         return a == b;
     }
