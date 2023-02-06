@@ -16,7 +16,6 @@ public class Main {
 
         int t = Integer.parseInt(br.readLine());
 
-
         for (int i = 0; i < t; i++) {
             for (boolean[] v : visited) {
                 Arrays.fill(v, false);
@@ -30,7 +29,6 @@ public class Main {
             n = Integer.parseInt(input[1]);
             k = Integer.parseInt(input[2]);
             Count(k);
-
         }
     }
 
@@ -55,19 +53,14 @@ public class Main {
     }
 
     static void dfs(int x, int y) {
-        if (visited[x][y] == true) {
+        if (visited[x][y]) {
             return;
         }
         visited[x][y] = true;
         for (int i = 0; i < 4; i++) {
-            if (x + newX[i] >= 0 && x + newX[i] < n) {
-                if (field[x + newX[i]][y] == 1) {
-                    dfs(x + newX[i], y);
-                }
-            }
-            if (y + newY[i] >= 0 && y + newY[i] < m) {
-                if (field[x][y + newY[i]] == 1) {
-                    dfs(x, y + newY[i]);
+            if (x + newX[i] >= 0 && x + newX[i] < n && y + newY[i] >= 0 && y + newY[i] < m) {
+                if (field[x + newX[i]][y + newY[i]] == 1 && !visited[x + newX[i]][y + newY[i]]) {
+                    dfs(x + newX[i], y + newY[i]);
                 }
             }
         }
