@@ -1,16 +1,6 @@
 import java.util.*;
 
 class Solution {
-    static class Car {
-        String time;
-        String status;
-
-        public Car(String time, String status) {
-            this.time = time;
-            this.status = status;
-        }
-    }
-
     public int[] solution(int[] fees, String[] records) {
         int[] answer = {};
 
