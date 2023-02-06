@@ -31,7 +31,6 @@ public class Main {
                     cnt++;
                 }
             }
-            checkCycle(1);
             sb.append(cnt).append("\n");
         }
         System.out.println(sb);
