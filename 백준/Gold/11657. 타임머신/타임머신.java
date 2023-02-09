@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Main {
     static long[] dist;
-    static long INF = Long.MAX_VALUE;
+    static final long INF = Long.MAX_VALUE;
     static List<Edge> edges = new ArrayList<>();
 
     static class Edge {
@@ -51,25 +51,20 @@ public class Main {
     static boolean BellmanFord(int n, int m) {
         dist[1] = 0;
 
-        for (int i = 1; i < n; i++) {
+        for (int i = 1; i <= n; i++) {
             for (int j = 0; j < m; j++) {
                 int start = edges.get(j).start;
                 int end = edges.get(j).end;
                 int weight = edges.get(j).weight;
-                if (dist[start] == INF) continue;
-                dist[end] = Math.min(dist[end], dist[start] + weight);
+                if (dist[start] != INF && dist[end] > dist[start] + weight) {
+                    dist[end] = dist[start] + weight;
+                    if (i == n) {
+                        return false;
+                    }
+                }
             }
         }
-        
-        for (int i = 0; i < m; i++) {
-            int start = edges.get(i).start;
-            int end = edges.get(i).end;
-            int weight = edges.get(i).weight;
-            if (dist[start] != INF && dist[end] > dist[start] + weight) {
-                return false;
-            }
-        }
-        
+
         return true;
     }
 }
