@@ -1,18 +1,27 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         long n = Long.parseLong(br.readLine());
-
-        if ((long) Math.sqrt(n) * (long) Math.sqrt(n) >= n) {
-            System.out.println((long) Math.sqrt(n));
-        }else {
-            System.out.println((long) Math.sqrt(n) + 1);
+        long left = 0;
+        long right = (long) Math.sqrt(n);
+        long mid;
+        
+        while (left <= right) {
+            mid = (left + right) / 2;
+            if (mid * mid < n) {
+                left = mid + 1;
+            } else if (mid * mid > n) {
+                right = mid - 1;
+            } else {
+                left = mid;
+                break;
+            }
         }
+
+        System.out.println(left);
         br.close();
     }
 }
