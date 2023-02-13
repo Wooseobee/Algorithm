@@ -4,7 +4,6 @@ import java.util.*;
 public class Main {
     static int n, m;
     static int[][] factory;
-    static boolean[][] visited;
     static int[] moveX = {1, -1, 0, 0};
     static int[] moveY = {0, 0, 1, -1};
 
@@ -16,7 +15,6 @@ public class Main {
         m = Integer.parseInt(input[1]);
 
         factory = new int[n][m];
-        visited = new boolean[n][m];
 
         for (int i = 0; i < n; i++) {
             input = br.readLine().split(" ");
@@ -57,7 +55,6 @@ public class Main {
         q.add(new Point(startI, startJ, startD, 0));
         boolean[][][] dirVisited = new boolean[n][m][4];
 
-        visited[startI][startJ] = true;
         dirVisited[startI][startJ][startD] = true;
 
         while (!q.isEmpty()) {
@@ -76,10 +73,9 @@ public class Main {
             for (int k = 0; k < 3; k++) {
                 newI += moveY[dir];
                 newJ += moveX[dir];
-                if (newI >= 0 && newJ >= 0 && newI < n && newJ < m && !visited[newI][newJ]) {
+                if (newI >= 0 && newJ >= 0 && newI < n && newJ < m && !dirVisited[newI][newJ][dir]) {
                     if (factory[newI][newJ] == 0) {
                         q.add(new Point(newI, newJ, dir, order + 1));
-                        visited[newI][newJ] = true;
                         dirVisited[newI][newJ][dir] = true;
                     } else {
                         break;
