@@ -11,7 +11,7 @@ public class Main {
         int n = Integer.parseInt(s[0]);
         int m = Integer.parseInt(s[1]);
         int[] trees = new int[n];
-        int left = 0, right = 0, mid = 0;
+        int left = 0, right = 0, mid;
 
         s = br.readLine().split(" ");
 
