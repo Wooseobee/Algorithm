@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -17,13 +15,11 @@ public class Main {
         rest[n] = 0;
         rest[n + 1] = l;
 
-        if (n != 0) {
-            input = br.readLine().split(" ");
-            for (int i = 0; i < n; i++) {
-                rest[i] = Integer.parseInt(input[i]);
-            }
-            Arrays.sort(rest);
+        input = br.readLine().split(" ");
+        for (int i = 0; i < n; i++) {
+            rest[i] = Integer.parseInt(input[i]);
         }
+        Arrays.sort(rest);
 
         int left = 0;
         int right = l;
