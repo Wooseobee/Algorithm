@@ -1,39 +1,17 @@
 import java.util.*;
 
 class Solution {
-    static int answer = 0;
-    
     public int solution(int[] numbers, int target) {
 
-        bfs(numbers, target);
-
-        return answer;
+        return dfs(0,0,numbers, target);
     }
-
-    static class Sum {
-        int sum;
-        int idx;
-
-        public Sum(int sum, int idx) {
-            this.sum = sum;
-            this.idx = idx;
+    
+    static int dfs(int n, int sum, int[] numbers, int target){
+        if(n==numbers.length){
+            if(sum==target) return 1;
+            else return 0;
         }
+        return dfs(n+1,sum+numbers[n], numbers, target) + dfs(n+1, sum-numbers[n], numbers,target);
     }
-
-    public static void bfs(int[] numbers, int target) {
-        Queue<Sum> q = new LinkedList<>();
-        q.add(new Sum(numbers[0], 0));
-        q.add(new Sum(-numbers[0], 0));
-
-        while (!q.isEmpty()) {
-            Sum s = q.poll();
-            int sum = s.sum;
-            int idx = s.idx;
-            if (idx == numbers.length - 1 && target == sum) answer++;
-            if (idx < numbers.length - 1) {
-                q.add(new Sum(sum + numbers[idx + 1], idx + 1));
-                q.add(new Sum(sum - numbers[idx + 1], idx + 1));
-            }
-        }
-    }
+    
 }
