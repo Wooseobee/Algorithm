@@ -1,41 +1,39 @@
-import java.util.*;
 import java.io.*;
+import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        Stack<Integer> stack = new Stack<>();
 
         int n = Integer.parseInt(br.readLine());
-
-        String[] input = br.readLine().split(" ");
+        int[] arr = new int[n];
         int[] answer = new int[n];
 
-        for (int i = input.length - 1; i >= 0; i--) {
-            int now = Integer.parseInt(input[i]);
-            while (!stack.isEmpty()) {
-                int top = stack.peek();
-                if (top > now) {
-                    answer[i] = top;
-                    stack.add(now);
-                    break;
-                } else {
-                    stack.pop();
-                }
-            }
-            if (stack.isEmpty()) {
-                stack.add(now);
-                answer[i] = -1;
-            }
-        }
+        String[] input = br.readLine().split(" ");
 
         for (int i = 0; i < n; i++) {
-            bw.write(answer[i] + " ");
+            arr[i] = Integer.parseInt(input[i]);
         }
-        
-        bw.flush();
-        bw.close();
+
+        Stack<int[]> stack = new Stack<>();
+
+        stack.add(new int[]{0, arr[0]});
+        for (int i = 1; i < n; i++) {
+            while (!stack.isEmpty() && stack.peek()[1] < arr[i]) {
+                answer[stack.pop()[0]] = arr[i];
+            }
+            stack.add(new int[]{i, arr[i]});
+        }
+        while (!stack.isEmpty()) {
+            answer[stack.pop()[0]] = -1;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(answer[i]).append(" ");
+        }
+
+        System.out.println(sb);
         br.close();
     }
 }
