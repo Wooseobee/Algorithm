@@ -2,44 +2,41 @@ import java.io.*;
 import java.util.Arrays;
 
 public class Main {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    static int n;
-    static String[][] stars;
+    static char[][] star;
 
     public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        n = Integer.parseInt(br.readLine());
-
-        stars = new String[n][n];
+        int n = Integer.parseInt(br.readLine());
+        star = new char[n][n];
 
         for (int i = 0; i < n; i++) {
-            Arrays.fill(stars[i], " ");
+            Arrays.fill(star[i], ' ');
         }
 
-        star(0, 0, n);
+        makeStar(0, 0, n);
 
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                bw.write(stars[i][j]);
+                sb.append(star[i][j]);
             }
-            bw.write("\n");
+            sb.append("\n");
         }
 
-        bw.flush();
-        bw.close();
+        System.out.println(sb);
         br.close();
     }
 
-    static void star(int i, int j, int size) throws IOException {
+    static void makeStar(int i, int j, int size) {
         if (size == 1) {
-            stars[i][j] = "*";
+            star[i][j] = '*';
             return;
         }
         for (int k = 0; k < 3; k++) {
             for (int l = 0; l < 3; l++) {
                 if (!(k == 1 && l == 1)) {
-                    star(i + k * (size / 3), j + l * (size / 3), size / 3);
+                    makeStar(i + (size / 3) * k, j + (size / 3) * l, size / 3);
                 }
             }
         }
