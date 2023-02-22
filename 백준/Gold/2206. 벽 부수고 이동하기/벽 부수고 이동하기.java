@@ -1,23 +1,18 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     static int n, m;
     static int[][] map;
-    static int[] moveX = new int[]{-1, 1, 0, 0};
-    static int[] moveY = new int[]{0, 0, -1, 1};
+    static final int[] dx = new int[]{-1, 1, 0, 0};
+    static final int[] dy = new int[]{0, 0, -1, 1};
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         String[] input = br.readLine().split(" ");
-
         n = Integer.parseInt(input[0]);
         m = Integer.parseInt(input[1]);
-
         map = new int[n][m];
 
         for (int i = 0; i < n; i++) {
@@ -35,51 +30,51 @@ public class Main {
     static class Point {
         int i;
         int j;
-        int count;
+        int cnt;
         boolean breakWall;
 
-        public Point(int i, int j, int count, boolean breakWall) {
+        public Point(int i, int j, int cnt, boolean breakWall) {
             this.i = i;
             this.j = j;
-            this.count = count;
+            this.cnt = cnt;
             this.breakWall = breakWall;
         }
     }
 
     static int bfs() {
         Queue<Point> q = new LinkedList<>();
+        boolean[][] breakVisited = new boolean[n][m];
+        boolean[][] visited = new boolean[n][m];
+
         q.add(new Point(0, 0, 1, false));
-        boolean[][] unBreakVisited = new boolean[n][m];
-        boolean[][] BreakVisited = new boolean[n][m];
-        unBreakVisited[0][0] = true;
+        visited[0][0] = true;
+        breakVisited[0][0] = true;
 
         while (!q.isEmpty()) {
-            Point newPoint = q.poll();
-            int i = newPoint.i;
-            int j = newPoint.j;
-            int count = newPoint.count;
-            boolean breakWall = newPoint.breakWall;
+            Point p = q.poll();
 
-            if (i == n - 1 && j == m - 1) {
-                return count;
+            if (p.i == n - 1 && p.j == m - 1) {
+                return p.cnt;
             }
 
             for (int k = 0; k < 4; k++) {
-                int newI = i + moveY[k];
-                int newJ = j + moveX[k];
-                if (newI >= 0 && newJ >= 0 && newI < n && newJ < m) {
+                int i = p.i + dy[k];
+                int j = p.j + dx[k];
+                int cnt = p.cnt + 1;
+                boolean breakWall = p.breakWall;
+                if (i >= 0 && j >= 0 && i < n && j < m) {
                     if (breakWall) {
-                        if (map[newI][newJ] == 0 && ! BreakVisited[newI][newJ]) {
-                            q.add(new Point(newI, newJ, count + 1, true));
-                            BreakVisited[newI][newJ] = true;
+                        if (map[i][j] == 0 && !breakVisited[i][j]) {
+                            q.add(new Point(i, j, cnt, true));
+                            breakVisited[i][j] = true;
                         }
                     } else {
-                        if (map[newI][newJ] == 0 && !unBreakVisited[newI][newJ]) {
-                            q.add(new Point(newI, newJ, count + 1, false));
-                            unBreakVisited[newI][newJ] = true;
-                        } else if (map[newI][newJ] == 1 && !BreakVisited[newI][newJ]){
-                            q.add(new Point(newI, newJ, count + 1, true));
-                            BreakVisited[newI][newJ] = true;
+                        if (map[i][j] == 0 && !visited[i][j]) {
+                            q.add(new Point(i, j, cnt, false));
+                            visited[i][j] = true;
+                        } else if (map[i][j] == 1 && !breakVisited[i][j]) {
+                            q.add(new Point(i, j, cnt, true));
+                            breakVisited[i][j] = true;
                         }
                     }
                 }
