@@ -58,9 +58,7 @@ public class Main {
         }
 
         for (int i = 1; i < n+1; i++) {
-            if (max < dist[i][x] + dist[x][i]) {
-                max = dist[i][x] + dist[x][i];
-            }
+            max = Math.max(max, dist[i][x] + dist[x][i]);
         }
         System.out.println(max);
     }
@@ -74,12 +72,13 @@ public class Main {
 
             if (!visited[vertex][now]) {
                 visited[vertex][now] = true;
+            } else {
+                continue;
             }
 
             for (Node next : graph.get(now)) {
                 if (dist[vertex][next.v] > dist[vertex][now] + next.cost) {
                     dist[vertex][next.v] = dist[vertex][now] + next.cost;
-
                     pq.add(new Node(next.v, dist[vertex][next.v]));
                 }
             }
