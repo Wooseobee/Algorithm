@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     static int n, m;
@@ -26,8 +24,8 @@ public class Main {
             input = br.readLine().split(" ");
             for (int j = 0; j < m; j++) {
                 map[i][j] = Integer.parseInt(input[j]);
-                Arrays.fill(dp[i], -1);
             }
+            Arrays.fill(dp[i], -1);
         }
         System.out.println(dfs(0, 0));
         br.close();
