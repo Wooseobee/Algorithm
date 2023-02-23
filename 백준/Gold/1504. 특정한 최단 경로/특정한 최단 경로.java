@@ -1,10 +1,5 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     static class road {
@@ -85,8 +80,10 @@ public class Main {
             if (!visited[now.v]) {
                 visited[now.v] = true;
                 for (road next : list[now.v]) {
-                    dist[next.v] = Math.min(dist[next.v], now.w + next.w);
-                    pq.add(new road(next.v, dist[next.v]));
+                    if (dist[next.v] > now.w + next.w){
+                        dist[next.v] = now.w + next.w;
+                        pq.add(new road(next.v, dist[next.v]));
+                    }
                 }
             }
 
