@@ -7,8 +7,8 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
 
-        long[] road = new long[n - 1];
-        long[] gas = new long[n];
+        int[] road = new int[n - 1];
+        int[] gas = new int[n];
 
         String[] input = br.readLine().split(" ");
         for (int i = 0; i < n - 1; i++) {
@@ -20,11 +20,11 @@ public class Main {
             gas[i] = Integer.parseInt(input[i]);
         }
 
-        long min = gas[0];
+        int min = gas[0];
         long sum = 0;
         for (int i = 0; i < n - 1; i++) {
             min = Math.min(min, gas[i]);
-            sum += (min * road[i]);
+            sum += ((long) min * road[i]);
         }
 
         System.out.println(sum);
