@@ -1,8 +1,6 @@
 import java.io.*;
 
 public class Main {
-    static boolean can = false;
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -11,7 +9,7 @@ public class Main {
 
         canChange(s, t);
 
-        if (can) {
+        if (canChange(s, t)) {
             System.out.println(1);
         } else {
             System.out.println(0);
@@ -19,14 +17,20 @@ public class Main {
         br.close();
     }
 
-    static void canChange(String s, String t) {
+    static boolean canChange(String s, String t) {
         if (s.length() == t.length()) {
-            if (s.equals(t)) can = true;
-            return;
-        } else if (s.length() < t.length() && t.length() > 1) {
-            if (t.charAt(t.length() - 1) == 'A') canChange(s, removeA(t));
-            if (t.charAt(0) == 'B') canChange(s, removeB(t));
+            if (s.equals(t)) return true;
+            return false;
         }
+        if (t.charAt(t.length() - 1) == 'A') {
+            if (canChange(s, removeA(t))) return true;
+        }
+        if (t.charAt(0) == 'B') {
+            if (canChange(s, removeB(t))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     static String removeA(String t) {
