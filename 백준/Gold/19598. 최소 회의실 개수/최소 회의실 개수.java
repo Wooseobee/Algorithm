@@ -13,27 +13,18 @@ public class Main {
             pq.add(new int[]{Integer.parseInt(input[0]), Integer.parseInt(input[1])});
         }
 
-        int cnt = 0;
-        List<Integer> conference = new ArrayList<>();
+        int max = 0;
+        PriorityQueue<int[]> conference = new PriorityQueue<>((o1, o2) -> o1[1] - o2[1]);
         while (!pq.isEmpty()) {
             int[] now = pq.poll();
-            boolean addNewConference = false;
-            for (int i = 0; i < conference.size(); i++) {
-                int before = conference.get(i);
-                if (before <= now[0]) {
-                    addNewConference = true;
-                    conference.remove(i);
-                    conference.add(now[1]);
-                    break;
-                }
+            while (!conference.isEmpty() && conference.peek()[1] <= now[0]) {
+                conference.poll();
             }
-            if (!addNewConference) {
-                conference.add(now[1]);
-                cnt++;
-            }
+            conference.add(now);
+            max = Math.max(max, conference.size());
         }
 
-        System.out.println(cnt);
+        System.out.println(max);
         br.close();
     }
 }
