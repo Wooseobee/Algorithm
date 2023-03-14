@@ -21,7 +21,7 @@ public class Main {
         for (int i = n - 1; i >= 0; i--) {
             if (k >= coins[i]) {
                 cnt += k / coins[i];
-                k %= coins[i];
+                k = k % coins[i];
             }
         }
         System.out.println(cnt);
