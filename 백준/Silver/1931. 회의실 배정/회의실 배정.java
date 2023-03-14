@@ -22,26 +22,17 @@ public class Main {
             pq.add(new int[]{Integer.parseInt(input[0]), Integer.parseInt(input[1])});
         }
 
-        PriorityQueue<int[]> conference = new PriorityQueue<>((o1, o2) -> o1[0] - o2[0]);
-
-        int max = 0;
+        int cnt = 0;
+        int prev_end = 0;
         while (!pq.isEmpty()) {
             int[] now = pq.poll();
-            boolean addConference = false;
-            int cnt = 0;
-            while (!conference.isEmpty() && conference.peek()[0] <= now[0]) {
-                cnt = Math.max(cnt, conference.poll()[1]);
-                addConference = true;
+            if (prev_end <= now[0]) {
+                cnt++;
+                prev_end = now[1];
             }
-            if (addConference) {
-                conference.add(new int[]{now[1], cnt + 1});
-            }else {
-                conference.add(new int[]{now[1], 1});
-            }
-            max = Math.max(max, cnt + 1);
         }
 
-        System.out.println(max);
+        System.out.println(cnt);
         br.close();
     }
 }
