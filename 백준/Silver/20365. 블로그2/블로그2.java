@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -9,40 +8,27 @@ public class Main {
 
         String[] problems = br.readLine().split("");
 
-        Stack<String> stack = new Stack<>();
-        int cnt1 = 0;
-        for (int i = 0; i < n; i++) {
+        int blue = 0;
+        int red = 0;
+        if (problems[0].equals("B")) {
+            blue++;
+        } else {
+            red++;
+        }
+        for (int i = 1; i < n; i++) {
             String now = problems[i];
-            if (stack.isEmpty()) {
-                if (now.equals("R")) {
-                    stack.add(now);
-                    cnt1++;
-                }
+            if (now.equals(problems[i - 1])) {
+                continue;
             } else {
                 if (now.equals("B")) {
-                    stack.pop();
+                    blue++;
+                } else {
+                    red++;
                 }
             }
         }
 
-        stack.clear();
-        
-        int cnt2 = 0;
-        for (int i = 0; i < n; i++) {
-            String now = problems[i];
-            if (stack.isEmpty()) {
-                if (now.equals("B")) {
-                    stack.add(now);
-                    cnt2++;
-                }
-            } else {
-                if (now.equals("R")) {
-                    stack.pop();
-                }
-            }
-        }
-
-        System.out.println(Math.min(cnt1, cnt2) + 1);
+        System.out.println(Math.min(blue, red) + 1);
         br.close();
     }
 }
