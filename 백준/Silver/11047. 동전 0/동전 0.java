@@ -1,25 +1,29 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        String[] input = br.readLine().split(" ");
-        int n = Integer.parseInt(input[0]);
-        int k = Integer.parseInt(input[1]);
-
-        PriorityQueue<Integer> coins = new PriorityQueue<>(Collections.reverseOrder());
-        for (int i = 0; i < n; i++) {
-            coins.add(Integer.parseInt(br.readLine()));
-        }
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
 
         int cnt = 0;
-        while (k != 0 && !coins.isEmpty()) {
-            int v = coins.poll();
-            cnt += k / v;
-            k %= v;
+        int[] coins = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            coins[i] = Integer.parseInt(br.readLine());
         }
 
+        for (int i = n - 1; i >= 0; i--) {
+            if (k >= coins[i]) {
+                cnt += k / coins[i];
+                k %= coins[i];
+            }
+        }
         System.out.println(cnt);
         br.close();
     }
