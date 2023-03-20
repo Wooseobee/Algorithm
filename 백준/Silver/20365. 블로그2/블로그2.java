@@ -6,26 +6,17 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
 
-        String[] problems = br.readLine().split("");
+        char[] colors = br.readLine().toCharArray();
+        int blue = colors[0] == 'B' ? 1 : 0;
+        int red = colors[0] == 'R' ? 1 : 0;
 
-        int blue = 0;
-        int red = 0;
-        if (problems[0].equals("B")) {
-            blue++;
-        } else {
-            red++;
-        }
         for (int i = 1; i < n; i++) {
-            String now = problems[i];
-            if (now.equals(problems[i - 1])) {
+            if (colors[i - 1] == colors[i])
                 continue;
-            } else {
-                if (now.equals("B")) {
-                    blue++;
-                } else {
-                    red++;
-                }
-            }
+            if (colors[i] == 'B')
+                blue++;
+            else
+                red++;
         }
 
         System.out.println(Math.min(blue, red) + 1);
