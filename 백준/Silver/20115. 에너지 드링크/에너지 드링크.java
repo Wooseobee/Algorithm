@@ -8,20 +8,16 @@ public class Main {
         int n = Integer.parseInt(br.readLine());
         int[] drinks = new int[n];
 
-        String[] input = br.readLine().split(" ");
+        StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
-            drinks[i] = Integer.parseInt(input[i]);
+            drinks[i] = Integer.parseInt(st.nextToken());
         }
 
         Arrays.sort(drinks);
 
-        double total = drinks[n - 1];
-        for (int i = 0; i < n - 1; i++) {
-            if (total < drinks[i]) {
-                total = total / 2 + drinks[i];
-            } else {
-                total += (double) drinks[i] / 2;
-            }
+        double total = drinks[n-1];
+        for (int i = n - 2; i >= 0; i--) {
+            total += (double) drinks[i] / 2;
         }
 
         if (total == (int) total) {
