@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int len, min = Integer.MAX_VALUE;
+    static int min;
     static int[] btn;
     static List<Integer> brokenButton = new ArrayList<>();
     static String n;
@@ -11,8 +11,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         n = br.readLine();
-        len = n.length();
-        btn = new int[len];
+        int len = n.length();
         int m = Integer.parseInt(br.readLine());
         if (m != 0) {
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -23,63 +22,56 @@ public class Main {
 
         Collections.sort(brokenButton);
         int diffFromOneHundred = Math.abs(Integer.parseInt(n) - 100);
-        int diffFromZero = Integer.MAX_VALUE;
-        if (!brokenButton.contains(0)) {
-            diffFromZero = Integer.parseInt(n) + 1;
+        min = brokenButton.contains(0) ? Integer.MAX_VALUE : Integer.parseInt(n) + 1;
+
+        if (len > 1) {
+            findUpperAndLowerCase(len - 1, false);
         }
+        findUpperAndLowerCase(len + 1, true);
 
-        search(0, 0);
+        btn = new int[len];
+        search(0, 0, len);
 
-        findUpperCase();
-        if (len>1) {
-            findLowerCase();
-        }
-
-        System.out.println(Math.min(min, Math.min(diffFromOneHundred, diffFromZero)));
+        System.out.println(Math.min(min, diffFromOneHundred));
         br.close();
     }
 
-    private static void findUpperCase() {
-        int[] upBtn = new int[len + 1];
+    private static void findUpperAndLowerCase(int len, boolean upperCase) {
+        int[] newBtn = new int[len];
         int depth = 0;
         int cnt = 0;
-        while (depth < len + 1) {
-            for (int i = 0; i < 10; i++) {
-                if (brokenButton.contains(i) || (depth == 0 && i == 0)) {
-                    continue;
-                }
-                upBtn[depth] = i;
-                cnt++;
-                break;
-            }
+        while (depth < len) {
+            cnt = upperCase ? upper(newBtn, depth, cnt) : lower(newBtn, depth, cnt);
             depth++;
         }
-        if (cnt==len+1) {
-            countButtonClick(len + 1, upBtn);
+        if (cnt == len) {
+            countButtonClick(len, newBtn);
         }
     }
 
-    private static void findLowerCase() {
-        int[] downBtn = new int[len - 1];
-        int depth = 0;
-        int cnt = 0;
-        while (depth < len - 1) {
-            for (int i = 9; i >= 0; i--) {
-                if (brokenButton.contains(i) || (depth == 0 && i == 0)) {
-                    continue;
-                }
-                downBtn[depth] = i;
-                cnt++;
-                break;
+    private static int upper(int[] newBtn, int depth, int cnt) {
+        for (int i = 0; i < 10; i++) {
+            if (brokenButton.contains(i) || (depth == 0 && i == 0)) {
+                continue;
             }
-            depth++;
+            newBtn[depth] = i;
+            return cnt + 1;
         }
-        if (cnt==len-1) {
-            countButtonClick(len - 1, downBtn);
-        }
+        return cnt;
     }
 
-    private static void search(int depth, int idx) {
+    private static int lower(int[] newBtn, int depth, int cnt) {
+        for (int i = 9; i >= 0; i--) {
+            if (brokenButton.contains(i) || (depth == 0 && i == 0)) {
+                continue;
+            }
+            newBtn[depth] = i;
+            return cnt + 1;
+        }
+        return cnt;
+    }
+
+    private static void search(int depth, int idx, int len) {
         if (depth == len) {
             countButtonClick(len, btn);
             return;
@@ -89,7 +81,7 @@ public class Main {
                 continue;
             }
             btn[depth] = i;
-            search(depth + 1, idx);
+            search(depth + 1, idx, len);
         }
     }
 
