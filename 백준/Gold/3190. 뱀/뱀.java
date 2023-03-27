@@ -123,6 +123,7 @@ public class Main {
     private static char changeDir(char dir, int time) {
         if (!list.isEmpty()) {
             Dir d = list.get(0);
+            if (d.time < time) return dir;
             if (d.time == time) {
                 list.remove(0);
                 switch (d.dir) {
