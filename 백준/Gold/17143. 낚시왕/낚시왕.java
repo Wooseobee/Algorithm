@@ -19,7 +19,6 @@ public class Main {
     }
 
     static int r, c, m;
-    static int[][] board;
     static List<Shark> list = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
@@ -30,8 +29,6 @@ public class Main {
         r = Integer.parseInt(st.nextToken());
         c = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-
-        board = new int[r + 1][c + 1];
 
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
@@ -45,13 +42,18 @@ public class Main {
     private static int fishing() {
         int weight = 0;
         for (int i = 1; i <= c; i++) {
-            list.sort((o1, o2) -> o1.r - o2.r);
+            int row = r;
+            int idx = -1;
             for (int j = 0; j < list.size(); j++) {
-                if (list.get(j).c == i) {
-                    weight += list.get(j).z;
-                    list.remove(j);
-                    break;
+                Shark shark = list.get(j);
+                if (shark.c == i && shark.r <= row) {
+                    idx = j;
+                    row = shark.r;
                 }
+            }
+            if(idx != -1) {
+                weight += list.get(idx).z;
+                list.remove(idx);
             }
             moveSharks();
         }
