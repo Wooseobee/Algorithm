@@ -19,7 +19,6 @@ public class Main {
             board[i] = s.toCharArray();
         }
 
-        countMaxCandy();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 checkCandy(i, j);
@@ -51,8 +50,8 @@ public class Main {
     }
 
     public static void countMaxCandy() {
-        int cnt = 1;
         for (int i = 0; i < n; i++) {
+            int cnt = 1;
             char candy = board[i][0];
             for (int j = 1; j < n; j++) {
                 if (board[i][j] == candy) {
@@ -64,10 +63,9 @@ public class Main {
                 }
             }
             max = Math.max(max, cnt);
-            cnt = 1;
         }
-        cnt = 1;
         for (int j = 0; j < n; j++) {
+            int cnt = 1;
             char candy = board[0][j];
             for (int i = 1; i < n; i++) {
                 if (board[i][j] == candy) {
@@ -79,7 +77,6 @@ public class Main {
                 }
             }
             max = Math.max(max, cnt);
-            cnt = 1;
         }
     }
 }
