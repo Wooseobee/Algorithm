@@ -2,52 +2,38 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static class Room {
-        boolean leftWall;
-        boolean rightWall;
-
-        public Room(boolean leftWall, boolean rightWall) {
-            this.leftWall = leftWall;
-            this.rightWall = rightWall;
-        }
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int n = Integer.parseInt(br.readLine());
         int m = Integer.parseInt(br.readLine());
 
-        Room[] room = new Room[n + 1];
-        for (int i = 1; i <= n; i++) {
-            room[i] = new Room(true, true);
-        }
+        boolean[] rightWall = new boolean[n + 1];
         for (int i = 0; i < m; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int x = Integer.parseInt(st.nextToken());
             int y = Integer.parseInt(st.nextToken());
 
-            breakWall(x, y, room);
+            breakWall(x, y, rightWall);
         }
 
-        System.out.println(countRoom(n, room));
+        System.out.println(countRoom(n, rightWall));
         br.close();
     }
 
-    private static int countRoom(int n, Room[] room) {
+    private static int countRoom(int n, boolean[] rightWall) {
         int cnt = 1;
         for (int i = 1; i < n; i++) {
-            if (room[i].rightWall) {
+            if (!rightWall[i]) {
                 cnt++;
             }
         }
         return cnt;
     }
 
-    private static void breakWall(int x, int y, Room[] room) {
+    private static void breakWall(int x, int y, boolean[] rightWall) {
         for (int i = x; i < y; i++) {
-            room[i].rightWall = false;
-            room[i + 1].leftWall = false;
+            rightWall[i] = true;
         }
     }
 }
