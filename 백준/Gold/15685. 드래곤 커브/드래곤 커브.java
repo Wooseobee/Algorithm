@@ -5,13 +5,11 @@ public class Main {
     static boolean[][] map;
     static int[] dx = {0, -1, 0, 1};
     static int[] dy = {1, 0, -1, 0};
-    static Map<Integer, Integer> matchDirection = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         map = new boolean[101][101];
-        setMatchDirection();
 
         int n = Integer.parseInt(br.readLine());
         for (int i = 0; i < n; i++) {
@@ -41,13 +39,6 @@ public class Main {
         return total;
     }
 
-    private static void setMatchDirection() {
-        matchDirection.put(0, 1);
-        matchDirection.put(1, 2);
-        matchDirection.put(2, 3);
-        matchDirection.put(3, 0);
-    }
-
     private static void setDragonCurve(int y, int x, int d, int g) {
         List<Integer> dragon = new ArrayList<>();
         dragon.add(d);
@@ -65,7 +56,7 @@ public class Main {
     private static int[] rotateDragonCurve(int y, int x, List<Integer> dragon) {
         int size = dragon.size();
         for (int i = size - 1; i >= 0; i--) {
-            int d = matchDirection.get(dragon.get(i));
+            int d = (dragon.get(i) + 1) % 4;
             map[y + dx[d]][x + dy[d]] = true;
             y += dx[d];
             x += dy[d];
