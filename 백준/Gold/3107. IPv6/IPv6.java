@@ -34,11 +34,10 @@ public class Main {
                     if (i == ipv6.length()) break;
                     ch = ipv6.charAt(i);
                 }
-                sb.reverse();
                 while (sb.length() < 4) {
-                    sb.append('0');
+                    sb.insert(0, "0");
                 }
-                answer.append(sb.reverse()).append(":");
+                answer.append(sb).append(":");
                 i--;
             }
         }
