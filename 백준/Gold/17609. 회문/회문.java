@@ -11,7 +11,7 @@ public class Main {
         for (int i = 0; i < t; i++) {
             String[] input = br.readLine().split("");
 
-            int cnt = checkPalindrome(0, input.length - 1, input, 0);
+            int cnt = checkPalindrome(0, input.length - 1, input, false);
             if (cnt == 0) {
                 sb.append("0").append("\n");
             } else if (cnt == 1) {
@@ -25,20 +25,16 @@ public class Main {
         br.close();
     }
 
-    private static int checkPalindrome(int s, int e, String[] input, int total) {
+    private static int checkPalindrome(int s, int e, String[] input, boolean checked) {
         if (s >= e) {
             return 0;
         }
         if (input[s].charAt(0) != input[e].charAt(0)) {
-            if (total==1) return 1;
-            int left = checkPalindrome(s + 1, e, input, total+1);
-            int right = checkPalindrome(s, e - 1, input, total + 1);
-            if (Math.min(left, right) + 1 >= 2) {
-                return 2;
-            } else {
-                return 1;
-            }
+            if (checked) return 1;
+            int left = checkPalindrome(s + 1, e, input, true);
+            int right = checkPalindrome(s, e - 1, input, true);
+            return Math.min(left, right) + 1;
         }
-        return checkPalindrome(s + 1, e - 1, input, total);
+        return checkPalindrome(s + 1, e - 1, input, false);
     }
 }
