@@ -13,10 +13,8 @@ public class Main {
         for (int i = 0; i < n; i++) {
             liquid[i] = Integer.parseInt(st.nextToken());
         }
-        liquid = Arrays.stream(liquid)
-                .boxed().sorted()
-                .mapToInt(Integer::intValue)
-                .toArray();
+
+        Arrays.sort(liquid);
 
         int sum = 2_000_000_000;
 
