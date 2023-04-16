@@ -19,19 +19,16 @@ public class Main {
         int min = Integer.MAX_VALUE;
         int l = 0, r = 1;
         while (r < n) {
-            int diff = arr[r] - arr[l];
-            while (r < n && diff < m) {
-                diff = arr[r++] - arr[l];
+            if (arr[r] - arr[l] < m) {
+                r++;
+                continue;
             }
-            if (diff == m) {
-                min = diff;
+            if (arr[r] - arr[l] == m) {
+                min = m;
                 break;
             }
-            if (diff > m) {
-                min = Math.min(min, diff);
-            }
+            min = Math.min(min, arr[r] - arr[l]);
             l++;
-            r = l + 1;
         }
         System.out.println(min);
         br.close();
