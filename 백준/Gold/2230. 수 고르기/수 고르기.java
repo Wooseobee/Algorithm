@@ -23,7 +23,11 @@ public class Main {
             while (r < n && diff < m) {
                 diff = arr[r++] - arr[l];
             }
-            if (diff >= m) {
+            if (diff == m) {
+                min = diff;
+                break;
+            }
+            if (diff > m) {
                 min = Math.min(min, diff);
             }
             l++;
