@@ -27,13 +27,15 @@ public class Main {
                 sum += home[j];
             }
             if (sum < k) cnt++;
+            if (n == m) {
+                sb.append(cnt).append("\n");
+                continue;
+            }
             for (int j = 1; j < n; j++) {
                 sum -= home[j - 1];
                 sum += home[(j + m - 1) % n];
                 if (sum < k) {
-                    if (n != m) {
-                        cnt++;
-                    }
+                    cnt++;
                 }
             }
             sb.append(cnt).append("\n");
