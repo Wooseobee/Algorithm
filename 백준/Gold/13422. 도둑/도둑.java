@@ -31,7 +31,7 @@ public class Main {
                 sum -= home[j - 1];
                 sum += home[(j + m - 1) % n];
                 if (sum < k) {
-                    if ((j - 1) != ((j + m - 1) % n)) {
+                    if (n != m) {
                         cnt++;
                     }
                 }
