@@ -4,7 +4,6 @@ class Solution {
         
         while(!s.equals("1")){
             int len = s.length();
-            System.out.println("hi");
             s=s.replaceAll("0","");
             answer[1]+=len-s.length();
             answer[0]++;
