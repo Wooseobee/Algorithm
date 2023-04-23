@@ -24,34 +24,23 @@ public class Main {
     }
 
     static int findLastNum(int i, int j, int size) {
-        if (size == 2) {
-            return findSecondNum(i, j);
+        if (size == 1) {
+            return arr[i][j];
         }
         int a1 = findLastNum(i, j, size / 2);
         int a2 = findLastNum(i, j + size / 2, size / 2);
         int a3 = findLastNum(i + size / 2, j, size / 2);
         int a4 = findLastNum(i + size / 2, j + size / 2, size / 2);
 
-        int[] compareArr = new int[4];
-
-        compareArr[0] = a1;
-        compareArr[1] = a2;
-        compareArr[2] = a3;
-        compareArr[3] = a4;
-
-        Arrays.sort(compareArr);
-
-        return compareArr[2];
+        return findSecondNum(a1,a2,a3,a4);
     }
 
-    static int findSecondNum(int i, int j) {
+    static int findSecondNum(int n1, int n2, int n3, int n4) {
         int[] compareArr = new int[4];
-        int idx = 0;
-        for (int k = i; k <= i + 1; k++) {
-            for (int l = j; l <= j + 1; l++) {
-                compareArr[idx++] = arr[k][l];
-            }
-        }
+        compareArr[0]=n1;
+        compareArr[1]=n2;
+        compareArr[2]=n3;
+        compareArr[3]=n4;
 
         Arrays.sort(compareArr);
 
