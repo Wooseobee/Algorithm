@@ -2,42 +2,32 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int G,P;
-    static boolean[] airplane;
-    static int[] gate = new int[100_001];
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        G = Integer.parseInt(br.readLine());
-        P = Integer.parseInt(br.readLine());
-        airplane = new boolean[G + 1];
-        int max = 0;
-        boolean finished = false;
-        Arrays.fill(gate, -1);
+        int G = Integer.parseInt(br.readLine());
+        int P = Integer.parseInt(br.readLine());
+        int[] parent = new int[G + 1];
+        for (int i = 1; i <= G; i++) {
+            parent[i] = i;
+        }
 
+        int cnt = 0;
         for (int i = 1; i <= P; i++) {
             int g = Integer.parseInt(br.readLine());
-            if (finished) continue;
-            int tmp = gate[g];
-            if (tmp == -1) {
-                tmp = g;
+            int x = find(parent, g);
+            if (x == 0) {
+                break;
             }
-            while (airplane[tmp]){
-                tmp--;
-            }
-            if (tmp > 0) {
-                airplane[tmp] = true;
-                gate[g] = tmp - 1;
-            } else {
-                finished = true;
-            }
-            if (finished) {
-                max = i - 1;
-            } else {
-                max = i;
-            }
+            parent[x] = find(parent, x) - 1;
+            cnt++;
         }
-        System.out.println(max);
+        System.out.println(cnt);
         br.close();
+    }
+
+    private static int find(int[] parent, int x) {
+        if (parent[x] == x) return x;
+        return parent[x] = find(parent, parent[x]);
     }
 }
