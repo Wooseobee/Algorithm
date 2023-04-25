@@ -59,10 +59,18 @@ public class Main {
                 }
 
                 for (Ticket ticket : tickets[now.v]) {
-                    if (now.c + ticket.c > m) continue;
+                    int nextCost = now.c + ticket.c;
+                    int nextDist = now.d + ticket.d;
+                    if (nextCost > m) continue;
+                    if (nextDist >= dp[ticket.v][nextCost]) continue;
 
                     if (dp[ticket.v][now.c + ticket.c] > now.d + ticket.d) {
                         dp[ticket.v][now.c + ticket.c] = now.d + ticket.d;
+                        for (int j = nextCost; j <= m; j++) {
+                            if (dp[ticket.v][j] > nextDist) {
+                                dp[ticket.v][j] = nextDist;
+                            }
+                        }
                         pq.add(new Ticket(ticket.v, now.c + ticket.c, dp[ticket.v][now.c + ticket.c]));
                     }
                 }
