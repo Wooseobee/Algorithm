@@ -45,11 +45,9 @@ public class Main {
 
     private static int bfs() {
         PriorityQueue<Point> pq = new PriorityQueue<>((o1, o2) -> o1.moveCount - o2.moveCount);
-        boolean[][] visited = new boolean[n][m];
         boolean[][][] brokenVisited = new boolean[n][m][k + 1]; // (n,m) k번 부순 길
         pq.add(new Point(0, 0, 1, 0));
-        visited[0][0] = true;
-        brokenVisited[0][0][0] = true;
+        Arrays.fill(brokenVisited[0][0], true);
 
         while (!pq.isEmpty()) {
             Point now = pq.poll();
@@ -63,17 +61,9 @@ public class Main {
                 int newJ = now.j + dx[i];
                 if (newI >= 0 && newJ >= 0 && newI < n && newJ < m) {
                     if (arr[newI][newJ] == 0) { // 벽이 없을 때
-                        if (breakCount > 0) {  //이미 한 번 이상 벽을 부쉈을 때
-                            if (!brokenVisited[newI][newJ][breakCount]) {
-                                pq.add(new Point(newI, newJ, now.moveCount + 1, breakCount));
-                                brokenVisited[newI][newJ][breakCount] = true;
-                            }
-                        } else {
-                            if (!visited[newI][newJ]) {
-                                visited[newI][newJ] = true;
-                                pq.add(new Point(newI, newJ, now.moveCount + 1, breakCount));
-
-                            }
+                        if (!brokenVisited[newI][newJ][breakCount]) {
+                            pq.add(new Point(newI, newJ, now.moveCount + 1, breakCount));
+                            brokenVisited[newI][newJ][breakCount] = true;
                         }
                     } else {    // 벽이 있을 때
                         if (breakCount < k && !brokenVisited[newI][newJ][breakCount + 1]) {
