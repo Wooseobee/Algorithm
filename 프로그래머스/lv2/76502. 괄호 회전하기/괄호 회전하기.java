@@ -1,13 +1,8 @@
 import java.util.*;
 class Solution {
-    static List<Character> openBracket = new ArrayList<>();
     public int solution(String s) {
         int answer = 0;
         int len = s.length();
-
-        openBracket.add('[');
-        openBracket.add('{');
-        openBracket.add('(');
 
         Deque<Character> deque = new ArrayDeque<>();
 
