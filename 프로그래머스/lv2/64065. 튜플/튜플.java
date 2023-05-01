@@ -2,7 +2,8 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String s) {
-        String[] strings = s.replaceAll("^[{]{2}|[}]{2}$", "").split("[}]{1}[,]{1}[{]{1}");
+        s = s.replaceAll("^[{]{2}|[}]{2}$", "");
+        String[] strings = s.split("[}]{1}[,]{1}[{]{1}");
 
         PriorityQueue<String> pq = new PriorityQueue<>((o1, o2) -> o1.length() - o2.length());
         pq.addAll(Arrays.asList(strings));
