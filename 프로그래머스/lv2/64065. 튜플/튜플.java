@@ -2,26 +2,24 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String s) {
-        s = s.replaceAll("^[{]{2}|[}]{2}$", "");
-        String[] strings = s.split("[}]{1}[,]{1}[{]{1}");
+        String[] strings = s.replaceAll("^[{]{2}|[}]{2}$", "").split("[}]{1}[,]{1}[{]{1}");
 
-        PriorityQueue<String> pq = new PriorityQueue<>((o1, o2) -> o1.length() - o2.length());
-        pq.addAll(Arrays.asList(strings));
+        Map<Integer, Integer> elements = new HashMap<>();
 
-        List<Integer> ans = new ArrayList<>();
-
-        while (!pq.isEmpty()) {
-            String str = pq.poll();
-
+        for (String str : strings) {
             String[] strs = str.split(",");
-
-            for(String ss : strs){
-                if (!ans.contains(Integer.parseInt(ss))) {
-                    ans.add(Integer.parseInt(ss));
-                }
+            for (String element : strs) {
+                elements.put(Integer.parseInt(element), elements.getOrDefault(Integer.parseInt(element), 0) + 1);
             }
         }
 
-        return ans.stream().mapToInt(Integer::intValue).toArray();
+        int size = elements.size();
+        int[] ans = new int[size];
+
+        for (int key : elements.keySet()) {
+            ans[size - elements.get(key)] = key;
+        }
+
+        return ans;
     }
 }
