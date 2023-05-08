@@ -5,10 +5,9 @@ class Solution {
         int answer = 0;
         int len = number.length;
 
-        for (int i = 0; i < discount.length - len; i++) {
+        for (int i = 0; i < discount.length - 9; i++) {
             Map<String, Integer> discountProduct = new HashMap<>();
             for (int j = 0; j < 10; j++) {
-                if (i + j == discount.length) break;
                 String todayFood = discount[i + j];
                 discountProduct.put(todayFood, discountProduct.getOrDefault(todayFood, 0) + 1);
             }
