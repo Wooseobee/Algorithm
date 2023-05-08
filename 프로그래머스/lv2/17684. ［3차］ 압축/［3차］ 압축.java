@@ -25,14 +25,12 @@ class Solution {
                 sb.append(msg.charAt(i));
             }
             i--;
-            String s = sb.toString();
-            if (dict.containsKey(s)) {
-                answer.add(dict.get(s));
-            } else if (removeLast) {
-                dict.put(s, idx++);
-                sb.deleteCharAt(s.length() - 1);
-                answer.add(dict.get(sb.toString()));
+            if (removeLast) {
+                dict.put(sb.toString(), idx++);
+                sb.deleteCharAt(sb.length() - 1);
             }
+            String s = sb.toString();
+            answer.add(dict.get(s));
         }
         return answer.stream().mapToInt(Integer::intValue).toArray();
     }
