@@ -15,31 +15,34 @@ class Solution {
     }
 
     public String[] solution(String[] files) {
-        List<File> answer = new ArrayList<>();
-
-        for (String file : files) {
-            String[] divide = file.trim().split("[0-9]"); // 숫자로 분리
-            String head = divide[0];
-            int len = head.length();
-            String number;
-            if (len + 5 > file.length()) {
-                number = file.substring(len).replaceAll("[^0-9]", " ").split(" ")[0];
-            } else {
-                number = file.substring(len, len + 5).replaceAll("[^0-9]", " ").split(" ")[0];
-            }
-            int len2 = number.length();
-            String tail = "" + file.substring(len + len2);
-            answer.add(new File(head, number, tail));
-        }
-
-        return answer.stream().sorted(new Comparator<>() {
+        Arrays.sort(files, new Comparator<String>() {
             @Override
-            public int compare(File f1, File f2) {
-                if (f1.head.toUpperCase().equals(f2.head.toUpperCase())) {
+            public int compare(String s1, String s2) {
+                File f1 = getFile(s1);
+                File f2 = getFile(s2);
+
+                if (f1.head.equals(f2.head)) {
                     return Integer.parseInt(f1.number) - Integer.parseInt(f2.number);
                 }
-                return f1.head.toUpperCase().compareTo(f2.head.toUpperCase());
+                return f1.head.compareTo(f2.head);
             }
-        }).map(f1 -> new String(f1.head + f1.number + f1.tail)).collect(Collectors.toList()).toArray(new String[0]);
+        });
+
+        return files;
+    }
+
+    private static File getFile(String file) {
+        String[] divide = file.split("[0-9]"); // 숫자로 분리
+        String head = divide[0].toUpperCase();
+        int len = head.length();
+        String number;
+        if (len + 5 > file.length()) {
+            number = file.substring(len).replaceAll("[^0-9]", " ").split(" ")[0];
+        } else {
+            number = file.substring(len, len + 5).replaceAll("[^0-9]", " ").split(" ")[0];
+        }
+        int len2 = number.length();
+        String tail = "" + file.substring(len + len2);
+        return new File(head, number, tail);
     }
 }
