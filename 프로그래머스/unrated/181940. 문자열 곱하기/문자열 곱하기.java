@@ -1,0 +1,7 @@
+class Solution {
+    public String solution(String my_string, int k) {
+        String answer = new String();
+        while(k-- > 0) answer += my_string;
+        return answer;
+    }
+}
