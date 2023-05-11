@@ -47,7 +47,7 @@ class Solution {
                 }
             }
             int cnt = removeAll();
-            if (cnt == 0) break;
+            if (cnt == 0) break;    // 삭제된 블록이 없으면 게임 종료
             answer += cnt;
             resetData(m);
             moveRemainBlock(m, n);
@@ -56,7 +56,7 @@ class Solution {
         return answer;
     }
 
-    private static void moveRemainBlock(int m, int n) {
+    private static void moveRemainBlock(int m, int n) {     // 남아있는 블록 내리기
         for (int j = 0; j < n; j++) {
             for (int i = m - 1; i >= 0; i--) {
                 if (arr[i][j] != '*') {
@@ -71,14 +71,14 @@ class Solution {
         }
     }
 
-    private static void resetData(int m) {
+    private static void resetData(int m) {  // removeList, visited 초기화
         removeList.clear();
         for (int i = 0; i < m; i++) {
             Arrays.fill(visited[i], false);
         }
     }
 
-    private static int removeAll() {
+    private static int removeAll() {    // removeList 삭제
         int cnt = 0;
         for (Point p : removeList) {
             arr[p.i][p.j] = '*';
@@ -87,7 +87,7 @@ class Solution {
         return cnt;
     }
 
-    private static void bfs(int i, int j, int m, int n) {
+    private static void bfs(int i, int j, int m, int n) {   // 삭제가능한 블록 모두 removeList에 담기
         Queue<Point> q = new LinkedList<>();
         q.add(new Point(i, j));
 
