@@ -7,9 +7,9 @@ class Solution {
 
         Stack<Integer> stack = new Stack<>();
 
-        for (int i = len - 1; i >= 0; i--) {
+        for (int i = len - 1; i >= 0; i--) {    // 뒤에서부터 진행
             int num = numbers[i];
-            while (!stack.isEmpty() && stack.peek() <= num) {
+            while (!stack.isEmpty() && stack.peek() <= num) {   // top이 현재 숫자보다 클때까지 뽑기
                 stack.pop();
             }
             if (stack.isEmpty()) {
