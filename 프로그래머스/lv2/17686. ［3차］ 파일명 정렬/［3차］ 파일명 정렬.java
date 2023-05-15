@@ -35,11 +35,8 @@ class Solution {
         String head = divide[0].toUpperCase();
         int len = head.length();
         String number;
-        if (len + 5 > file.length()) {  // NUMBER 분리
-            number = file.substring(len).replaceAll("[^0-9]", " ").split(" ")[0];
-        } else {
-            number = file.substring(len, len + 5).replaceAll("[^0-9]", " ").split(" ")[0];
-        }
+        number = file.substring(len).replaceAll("[^0-9]", " ").split(" ")[0];
+        
         int len2 = number.length();
         String tail = "" + file.substring(len + len2);  // 나머지 TAIL
         return new File(head, number, tail);
