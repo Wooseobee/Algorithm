@@ -16,7 +16,6 @@ class Solution {
         boolean found = false;
         for (int i = s.length() - 1; i >= 0; i--, j++) {
             if (s.charAt(i) == '0' && !found) {     // 현재 숫자가 0이면 현재 숫자 1로 바꾸고 바로 이전 숫자 0으로 바꾸기 ex) 11011 => 11101, 110011 => 110101
-                if (j == 0) return num + 1;     // 첫번째 수가 0이면 +1하고 반환
                 sb.setCharAt(j - 1, '0');
                 sb.append("1");
                 found = true;
