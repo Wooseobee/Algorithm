@@ -1,14 +1,14 @@
 class Solution {
     public String solution(String m, String[] musicinfos) {
         String answer = "";
-        m = m.replace("C#", "c").replace("D#", "d").replace("F#", "f").replace("G#", "g").replace("A#", "a").replace("E#", "E");
+        m = m.replace("C#", "c").replace("D#", "d").replace("F#", "f").replace("G#", "g").replace("A#", "a");
         int longestRunningTime = 0;
         for (String music : musicinfos) {
             String[] splitString = music.split(",");
             String[] start = splitString[0].split(":");
             String[] end = splitString[1].split(":");
             String title = splitString[2];
-            String info = splitString[3].replace("C#", "c").replace("D#", "d").replace("F#", "f").replace("G#", "g").replace("A#", "a").replace("E#", "E");
+            String info = splitString[3].replace("C#", "c").replace("D#", "d").replace("F#", "f").replace("G#", "g").replace("A#", "a");
 
             int startHour = Integer.parseInt(start[0]);
             int startMin = Integer.parseInt(start[1]);
