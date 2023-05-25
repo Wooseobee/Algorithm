@@ -1,21 +1,20 @@
 class Solution {
     public int solution(int[] arrayA, int[] arrayB) {
-        int answer = 0;
+        int answer;
 
+        answer = getAnswer(arrayA, arrayB);
+        answer = Math.max(answer, getAnswer(arrayB, arrayA));
+
+        return answer;
+    }
+
+    private static int getAnswer(int[] arrayA, int[] arrayB) {
         int a = arrayA.length > 1 ? gcd(arrayA[0], arrayA[1]) : arrayA[0];
         for (int i = 2; i < arrayA.length; i++) {
             a = gcd(a, arrayA[i]);
         }
-        if (checkCanDivide(a, arrayB)) answer = a;
-
-        int b = arrayB.length > 1 ? gcd(arrayB[0], arrayB[1]) : arrayB[0];
-        for (int i = 2; i < arrayB.length; i++) {
-            b = gcd(b, arrayB[i]);
-        }
-
-        if (checkCanDivide(b, arrayA)) answer = Math.max(answer, b);
-
-        return answer == 1 ? 0 : answer;
+        if (checkCanDivide(a, arrayB)) return a;
+        return 0;
     }
 
     private static int gcd(int a, int b) {
