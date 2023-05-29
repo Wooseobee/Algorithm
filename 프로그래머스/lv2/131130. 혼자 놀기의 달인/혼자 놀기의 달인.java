@@ -12,26 +12,16 @@ class Solution {
                 if (i == j) continue;
                 int first = 0;
                 int second = 0;
-                first = firstGroup(i, cards);
-                if (!visited[j]) second = secondGroup(j, cards);
+                Arrays.fill(visited, false);
+                first = findGroup(i, cards);
+                if (!visited[j]) second = findGroup(j, cards);
                 answer = Math.max(answer, first * second);
             }
         }
         return answer;
     }
 
-    private static int firstGroup(int idx, int[] cards) {
-        Arrays.fill(visited, false);
-        int cnt = 0;
-        while (!visited[idx]) {
-            visited[idx] = true;
-            idx = cards[idx] - 1;
-            cnt++;
-        }
-        return cnt;
-    }
-
-    private static int secondGroup(int idx, int[] cards) {
+    private static int findGroup(int idx, int[] cards) {
         int cnt = 0;
         while (!visited[idx]) {
             visited[idx] = true;
