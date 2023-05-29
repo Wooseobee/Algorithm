@@ -5,14 +5,11 @@ class Solution {
         int answer = 0;
 
         // 2
-        Arrays.sort(data, new Comparator<>() {
-            @Override
-            public int compare(int[] d1, int[] d2) {
-                if (d1[col - 1] == d2[col - 1]) {
-                    return d2[0] - d1[0];
-                }
-                return d1[col - 1] - d2[col - 1];
+        Arrays.sort(data, (o1, o2) -> {
+            if (o1[col - 1] == o2[col - 1]) {
+                return o2[0] - o1[0];
             }
+            return o1[col - 1] - o2[col - 1];
         });
 
         // 3
@@ -21,7 +18,7 @@ class Solution {
             for (int j = 0; j < data[i - 1].length; j++) {
                 total += data[i - 1][j] % i;
             }
-            answer = answer ^ total;
+            answer ^= total;
         }
 
         return answer;
