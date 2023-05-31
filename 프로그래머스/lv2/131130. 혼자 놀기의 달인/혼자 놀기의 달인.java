@@ -7,18 +7,12 @@ class Solution {
         int answer = 0;
         int n = cards.length;
         visited = new boolean[n];
+        List<Integer> list = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i == j) continue;
-                int first = 0;
-                int second = 0;
-                Arrays.fill(visited, false);
-                first = findGroup(i, cards);
-                if (!visited[j]) second = findGroup(j, cards);
-                answer = Math.max(answer, first * second);
-            }
+            if (!visited[i]) list.add(findGroup(i, cards));
         }
-        return answer;
+        list.sort(Collections.reverseOrder());
+        return list.size() == 1 ? 0 : list.get(0) * list.get(1);
     }
 
     private static int findGroup(int idx, int[] cards) {
