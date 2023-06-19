@@ -4,11 +4,7 @@ class Solution {
         for (String str : babbling) {
             if (str.contains("ayaaya") || str.contains("yeye") || str.contains("woowoo") || str.contains("mama"))
                 continue;
-            str = str.replace("aya", "*");
-            str = str.replace("ye", "*");
-            str = str.replace("woo", "*");
-            str = str.replace("ma", "*");
-            str = str.replace("*", "");
+            str = str.replace("aya", "*").replace("ye", "*").replace("woo", "*").replace("ma", "*").replace("*", "");
             if (str.length() == 0) answer++;
         }
         return answer;
