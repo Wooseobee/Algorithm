@@ -11,3 +11,5 @@ class Solution {
         return answer;
     }
 }
+// 16 / 5 => 13 / 4 => 10 / 3 => 7 / 2 => 4 / 1
+// 3 3 3 3 4
