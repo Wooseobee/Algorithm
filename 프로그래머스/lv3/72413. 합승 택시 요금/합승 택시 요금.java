@@ -25,10 +25,10 @@ class Solution {
         }
 
         for (int i = 1; i <= n; i++) {
-            int total = 0;
-            total += dist[s][i] + dist[i][a] + dist[i][b];
+            int total = dist[s][i] + dist[i][a] + dist[i][b];
             answer = Math.min(answer, total);
         }
+        
         return answer;
     }
 }
