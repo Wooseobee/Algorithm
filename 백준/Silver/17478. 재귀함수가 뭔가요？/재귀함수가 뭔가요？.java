@@ -42,8 +42,6 @@ public class Main {
     }
 
     private static void printUnderBar(StringBuilder sb, int idx) {
-        for (int i = 0; i < idx; i++) {
-            sb.append("____");
-        }
+        sb.append("____".repeat(idx));
     }
 }
