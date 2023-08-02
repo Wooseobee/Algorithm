@@ -11,13 +11,13 @@ public class Main {
 		int n = Integer.parseInt(in[0]);
 		int m = Integer.parseInt(in[1]);
 
-		int[] arr = new int[n + 1];
 		int[] dp = new int[n + 1];
+		int v;
 
 		in = br.readLine().split(" ");
 		for (int i = 1; i <= n; i++) {
-			arr[i] = Integer.parseInt(in[i - 1]);
-			dp[i] = dp[i - 1] + arr[i];
+			v = Integer.parseInt(in[i - 1]);
+			dp[i] = dp[i - 1] + v;
 		}
 
 		for (int i = 1; i <= m; i++) {
