@@ -1,47 +1,37 @@
 import java.io.*;
 
 public class Main {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    static int n, m;
-    static int[] arr;
-    static boolean[] visited;
-    
-    public static void main(String[] args) throws IOException {
 
-        String[] s = br.readLine().split(" ");
+	private static StringBuilder sb = new StringBuilder();
+	private static int n, m;
+	private static int[] arr;
 
-        n = Integer.parseInt(s[0]);
-        m = Integer.parseInt(s[1]);
+	public static void main(String[] args) throws IOException {
 
-        arr = new int[m];
-        visited = new boolean[n];
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        dfs(0, 0);
+		String[] input = br.readLine().split(" ");
+		n = Integer.parseInt(input[0]);
+		m = Integer.parseInt(input[1]);
+		arr = new int[m];
 
-        bw.flush();
-        bw.close();
-        br.close();
-    }
+		backTracking(0, 1);
 
-    static void dfs(int depth, int start) throws IOException {
-        if (depth == m) {
-            for (int i = 0; i < m; i++) {
-                bw.write(arr[i] + " ");
-            }
-            bw.write("\n");
-            return;
-        }
+		System.out.println(sb);
+		br.close();
+	}
 
-        for (int i = start; i < n; i++) {
-            if (!visited[i]) {
-                visited[i] = true;
-
-                arr[depth] = i + 1;
-                dfs(depth + 1, i);
-
-                visited[i] = false;
-            }
-        }
-    }
+	private static void backTracking(int depth, int i) {
+		if (depth == m) {
+			for (int j = 0; j < m; j++) {
+				sb.append(arr[j]).append(" ");
+			}
+			sb.append("\n");
+			return;
+		}
+		for (int j = i; j <= n; j++) {
+			arr[depth] = j;
+			backTracking(depth + 1, j + 1);
+		}
+	}
 }
