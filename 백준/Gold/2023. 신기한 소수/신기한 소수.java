@@ -3,6 +3,7 @@ import java.io.*;
 public class Main {
 	private static StringBuilder sb = new StringBuilder();
 	private static int[] prime = { 2, 3, 5, 7 };
+	private static int[] possible = {1, 3, 7, 9};
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -12,6 +13,7 @@ public class Main {
 		for (int i = 0; i < prime.length; i++) {
 			backTracking(prime[i], n - 1);
 		}
+		
 		System.out.println(sb);
 		br.close();
 	}
@@ -21,9 +23,10 @@ public class Main {
 			sb.append(num).append("\n");
 			return;
 		}
-		for (int i = 1; i < 10; i += 2) {
-			if (isPrime(num * 10 + i)) {
-				backTracking(num * 10 + i, depth - 1);
+		for (int i = 0; i < possible.length; i++) {
+			int next = num * 10 + possible[i];
+			if (isPrime(next)) {
+				backTracking(next, depth - 1);
 			}
 		}
 	}
