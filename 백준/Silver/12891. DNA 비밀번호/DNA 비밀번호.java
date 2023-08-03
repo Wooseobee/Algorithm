@@ -1,10 +1,9 @@
 import java.io.*;
 
 public class Main {
-
-	public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
+
 		String[] in = br.readLine().split(" ");
 		int s = Integer.parseInt(in[0]);
 		int p = Integer.parseInt(in[1]);
@@ -21,78 +20,44 @@ public class Main {
 		int[] window = new int[4];
 
 		for (int i = 0; i < p; i++) {
-			switch (dna.charAt(i)) {
-			case 'A':
-				window[0]++;
-				break;
-			case 'C':
-				window[1]++;
-				break;
-			case 'G':
-				window[2]++;
-				break;
-			case 'T':
-				window[3]++;
-				break;
-			default:
-				break;
-			}
+			countCharacter(dna, window, i, 0);
 		}
-		boolean canMake = true;
-		for (int j = 0; j < 4; j++) {
-			if (window[j] < charCnt[j]) {
-				canMake = false;
-				break;
-			}
-		}
-		if (canMake)
-			answer++;
+		if (canMakePassword(window, charCnt)) answer++;
 
 		for (int i = 1; i <= s - p; i++) {
-			canMake = true;
-			switch (dna.charAt(i - 1)) {
-			case 'A':
-				window[0]--;
-				break;
-			case 'C':
-				window[1]--;
-				break;
-			case 'G':
-				window[2]--;
-				break;
-			case 'T':
-				window[3]--;
-				break;
-			default:
-				break;
-			}
-			switch (dna.charAt(i + p - 1)) {
-			case 'A':
-				window[0]++;
-				break;
-			case 'C':
-				window[1]++;
-				break;
-			case 'G':
-				window[2]++;
-				break;
-			case 'T':
-				window[3]++;
-				break;
-			default:
-				break;
-			}
-			for (int j = 0; j < 4; j++) {
-				if (window[j] < charCnt[j]) {
-					canMake = false;
-					break;
-				}
-			}
-			if (canMake)
-				answer++;
+			countCharacter(dna, window, i - 1, 1);
+			countCharacter(dna, window, i + p - 1, 0);
+			if (canMakePassword(window, charCnt)) answer++;
 		}
+
 		System.out.println(answer);
 		br.close();
 	}
 
+	private static boolean canMakePassword(int[] window, int[] charCnt) {
+		for (int j = 0; j < 4; j++) {
+			if (window[j] < charCnt[j]) return false;
+		}
+		return true;
+	}
+
+	private static void countCharacter(String dna, int[] window, int i, int flag) {
+		flag = (flag == 0 ? 1 : -1);
+		switch (dna.charAt(i)) {
+		case 'A':
+			window[0] += flag;
+			break;
+		case 'C':
+			window[1] += flag;
+			break;
+		case 'G':
+			window[2] += flag;
+			break;
+		case 'T':
+			window[3] += flag;
+			break;
+		default:
+			break;
+		}
+	}
 }
