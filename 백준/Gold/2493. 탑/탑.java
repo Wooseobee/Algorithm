@@ -1,35 +1,41 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Stack;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-//시간 초과
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(br.readLine());
-        Stack<int[]> stack = new Stack<>();
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        br.close();
-        int last = Integer.parseInt(st.nextToken());
-        stack.push(new int[] {0, last});
-        System.out.print("0 ");
-        for (int i = 1; i < N ; i++) {
-            last = Integer.parseInt(st.nextToken());
-            while(!stack.isEmpty()) {
-                if (last <= stack.peek()[1]) {
-                    System.out.print(stack.peek()[0]+1 + " ");
-                    break;
-                }
-                stack.pop();
-            }
-            if (stack.isEmpty()) {
-                System.out.print("0 ");
-            }
-            stack.push(new int[]{i, last});
-        }
-    }
+		int n = Integer.parseInt(br.readLine());
+
+		Stack<int[]> stack = new Stack<>();
+
+		String[] in = br.readLine().split(" ");
+		for (int i = 0; i < n; i++) {
+			int now = Integer.parseInt(in[i]);
+			while (!stack.isEmpty()) {
+				int[] top = stack.peek();
+				int idx = top[0];
+				int h = top[1];
+
+				if (now >= h) {
+					stack.pop();
+				} else {
+					break;
+				}
+			}
+			if (stack.isEmpty()) {
+				sb.append(0);
+			} else {
+				sb.append(stack.peek()[0] + 1);
+			}
+			sb.append(" ");
+			stack.push(new int[] { i, now });
+		}
+
+		System.out.println(sb);
+		br.close();
+	}
+
 }
