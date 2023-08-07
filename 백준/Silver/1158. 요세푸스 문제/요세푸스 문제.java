@@ -1,36 +1,31 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
 
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        Integer N = Integer.parseInt(st.nextToken());
-        Integer K = Integer.parseInt(st.nextToken());
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 
-        Queue<Integer> queue = new LinkedList<>();
+		String[] in = br.readLine().split(" ");
+		int n = Integer.parseInt(in[0]);
+		int k = Integer.parseInt(in[1]);
 
-        for (int i = 1; i <= N; i++) {
-            queue.offer(i);
-        }
+		List<Integer> list = new ArrayList<>();
+		for (int i = 1; i <= n; i++) {
+			list.add(i);
+		}
+		sb.append("<");
+		int idx = 0;
+		while (list.size() > 1) {
+			idx = (idx + k - 1) % list.size();
+			sb.append(list.get(idx)).append(", ");
+			list.remove(idx);
+		}
+		sb.append(list.get(0)).append(">");
 
-        sb.append("<");
-        while (queue.size() > 1) {
-            for (int i = 0; i < K-1; i++) {
-                queue.offer(queue.poll());
-            }
-            sb.append(queue.poll() + ", ");
-        }
-        sb.append(queue.poll());
-        sb.append(">");
+		System.out.println(sb);
+		br.close();
+	}
 
-        br.close();
-        System.out.println(sb);
-    }
 }
