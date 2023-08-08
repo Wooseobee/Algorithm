@@ -19,7 +19,7 @@ class Solution {
 
 			answer[idxMap.get(seller[i])] += forMyMoney;
 
-			while (!parent.equals("-") || forParentMoney >= 1) {
+			while (!parent.equals("-") && forParentMoney >= 1) {
 				if (forParentMoney * 10 / 100 < 1) {
 					forMyMoney = forParentMoney;
 					forParentMoney = 0;
@@ -32,7 +32,6 @@ class Solution {
 					answer[idxMap.get(parent)] += forMyMoney;
 				}
 				parent = parentMap.getOrDefault(parent, "-");
-                if(forParentMoney == 0) break;
 			}
 		}
 
