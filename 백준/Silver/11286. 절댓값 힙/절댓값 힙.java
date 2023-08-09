@@ -1,40 +1,39 @@
 import java.io.*;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                if (o1[1] == o2[1]) {
-                    return o1[0] - o2[0];
-                } else {
-                    return o1[1] - o2[1];
-                }
-            }
-        });
 
-        int n = Integer.parseInt(br.readLine());
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < n; i++) {
-            int x = Integer.parseInt(br.readLine());
+		int n = Integer.parseInt(br.readLine());
+		PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> {
+			if (Math.abs(o1) == Math.abs(o2)) {
+				return o1 - o2;
+			}
+			return Math.abs(o1) - Math.abs(o2);
+		});
 
-            if (x == 0) {
-                if (pq.isEmpty()) {
-                    bw.write("0\n");
-                } else {
-                    bw.write(pq.poll()[0] + "\n");
-                }
-            } else {
-                pq.add(new int[]{x, Math.abs(x)});
-            }
-        }
+		for (int i = 0; i < n; i++) {
+			int x = Integer.parseInt(br.readLine());
 
-        bw.flush();
-        bw.close();
-        br.close();
-    }
+			switch (x) {
+			case 0:
+				if (pq.isEmpty()) {
+					sb.append("0");
+				} else {
+					sb.append(pq.poll());
+				}
+				sb.append("\n");
+				break;
+			default:
+				pq.add(x);
+				break;
+			}
+		}
+		System.out.println(sb);
+		br.close();
+	}
+
 }
