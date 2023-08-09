@@ -14,9 +14,10 @@ public class Solution {
 			int n = Integer.parseInt(br.readLine());
 
 			int[][] room = new int[n][n];
+			int[][] dp = new int[n][n];
 			int roomNum = 1_000;
 			int max = 1;
-			
+
 			String[] in;
 			for (int i = 0; i < n; i++) {
 				in = br.readLine().split(" ");
@@ -27,7 +28,7 @@ public class Solution {
 
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
-					int canMove = bfs(n, room, i, j);
+					int canMove = bfs(n, room, i, j, dp);
 					if (canMove == max) {
 						if (roomNum > room[i][j]) {
 							roomNum = room[i][j];
@@ -40,32 +41,36 @@ public class Solution {
 			}
 			sb.append("#").append(test_case).append(" ").append(roomNum).append(" ").append(max).append("\n");
 		}
-		
+
 		System.out.println(sb);
 		br.close();
 	}
 
-	private static int bfs(int n, int[][] room, int i, int j) {
+	private static int bfs(int n, int[][] room, int i, int j, int[][] dp) {
 		Queue<int[]> q = new LinkedList<>();
-		boolean[][] visited = new boolean[n][n];
 		q.add(new int[] { i, j, 1 });
 		int max = 1;
 
 		while (!q.isEmpty()) {
 			int[] now = q.poll();
-			
+
 			max = Math.max(max, now[2]);
 
-			for(int d = 0 ; d < 4; d++) {
+			for (int d = 0; d < 4; d++) {
 				int nI = now[0] + dx[d];
 				int nJ = now[1] + dy[d];
-				
-				if (nI>=0 && nJ>=0 && nI<n && nJ<n && !visited[nI][nJ] && room[nI][nJ] == room[now[0]][now[1]] + 1) {
-					q.add(new int[] {nI,nJ, now[2] + 1});
-					visited[nI][nJ] = true;
+
+				if (nI >= 0 && nJ >= 0 && nI < n && nJ < n && room[nI][nJ] == room[now[0]][now[1]] + 1) {
+					if (dp[nI][nJ] != 0) {
+						max = Math.max(max, now[2] + dp[nI][nJ]);
+					} else {
+						q.add(new int[] { nI, nJ, now[2] + 1 });
+					}
 				}
 			}
 		}
+
+		dp[i][j] = max;
 
 		return max;
 	}
