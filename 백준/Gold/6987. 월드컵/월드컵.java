@@ -49,16 +49,14 @@ public class Main {
 			return;
         }
 
-		for (int i = t2; i < 6; i++) {
-			for (int j = 0; j < 3; j++) {
-				if (match[t1][j] > 0 && match[t2][3 - j - 1] > 0) {
-					match[t1][j]--;
-					match[t2][3 - j - 1]--;
-					matching(t1, t2 + 1, idx);
-					match[t1][j]++;
-					match[t2][3 - j - 1]++;
-				}
-			}
-		}
+        for (int j = 0; j < 3; j++) {
+            if (match[t1][j] > 0 && match[t2][3 - j - 1] > 0) {
+                match[t1][j]--;
+                match[t2][3 - j - 1]--;
+                matching(t1, t2 + 1, idx);
+                match[t1][j]++;
+                match[t2][3 - j - 1]++;
+            }
+        }
 	}
 }
