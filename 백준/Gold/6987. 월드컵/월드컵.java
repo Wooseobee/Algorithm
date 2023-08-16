@@ -34,20 +34,20 @@ public class Main {
 
 	private static void matching(int t1, int t2, int idx) {
 		if (t2 == 6) {
-			if (t1 < 4) {
-				matching(t1 + 1, t1 + 2, idx);
-			} else {
-				boolean canMatch = true;
-				for (int i = 0; i < 6; i++) {
-					for (int j = 0; j < 3; j++) {
-						if (match[i][j] != 0)
-							canMatch = false;
-					}
-				}
-				if(canMatch) can[idx] = true;
-			}
+            matching(t1 + 1, t1 + 2, idx);
 			return;
 		}
+        if(t1 == 6) {
+            boolean canMatch = true;
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (match[i][j] != 0)
+                        canMatch = false;
+                }
+            }
+            if(canMatch) can[idx] = true;
+			return;
+        }
 
 		for (int i = t2; i < 6; i++) {
 			for (int j = 0; j < 3; j++) {
