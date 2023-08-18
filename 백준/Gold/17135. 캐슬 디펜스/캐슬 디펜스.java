@@ -26,7 +26,7 @@ public class Main {
 		}
 
 		setArcher(0, 0);
-		System.out.println(max);
+		System.out.println(max);	// 최대 제거 수 출력
 		br.close();
 	}
 
@@ -45,14 +45,14 @@ public class Main {
 	// 적들은 가만히, 궁수가 한칸씩 위로 이동
 	private static void playGame() {
 		Queue<int[]> q = new ArrayDeque<int[]>();
-		Set<String>[] killList = new HashSet[n + 1];
-		int kill = 0;
+		Set<String>[] killList = new HashSet[n + 1];	// 죽인 적의 좌표를 저장할 Set 라운드 수 만큼 배열 크기 지정
+		int kill = 0;	// 죽인 적의 총합
 		int[][] tmpMap = new int[n][m]; // 복사할 격자판
 		for (int i = 0; i < n; i++) {
 			tmpMap[i] = Arrays.copyOf(map[i], m);
 		}
 		
-		for (int i = 0; i <= n; i++) {
+		for (int i = 0; i <= n; i++) {	// Set 초기화
 			killList[i] = new HashSet<String>();
 		}
 
@@ -91,12 +91,12 @@ public class Main {
 				// 좌우로 탐색
 				for (int k = 0; tmpDist <= d; k++) {
 					if (nJ - k >= 0 && tmpMap[nI][nJ - k] == 1) { // 왼쪽 탐색
-						pq.add(new int[] { nI, nJ - k, tmpDist });
+						pq.add(new int[] { nI, nJ - k, tmpDist });	// 적을 죽일 수 있다면, pq에 추가
 					}
 					if (nJ + k < m && tmpMap[nI][nJ + k] == 1) { // 오른쪽 탐색
-						pq.add(new int[] { nI, nJ + k, tmpDist });
+						pq.add(new int[] { nI, nJ + k, tmpDist });	// 적을 죽일 수 있다면, pq에 추가
 					}
-					tmpDist = Math.abs(i - nI) + Math.abs(j - nJ) + k + 1;
+					tmpDist = Math.abs(i - nI) + Math.abs(j - nJ) + k + 1;	// 거리 증가시키기
 				}
 
 				// 한 칸 더 위의 적 탐색, 거리++
@@ -117,12 +117,11 @@ public class Main {
 
 			// 한 라운드가 끝날 때마다 죽인 적의 위치 0으로 세팅
 			if (order == 2) {
-				Set<String> finish = killList[round];
-				for (String kL : finish) {
+				for (String kL : killList[round]) {
 					String[] coord = kL.split(" ");
 					tmpMap[Integer.parseInt(coord[0])][Integer.parseInt(coord[1])] = 0;
+					kill++;	// 죽인 적의 수 더하기
 				}
-				kill+= finish.size();
 			}
 		}
 		max = Math.max(max, kill);
