@@ -39,18 +39,23 @@ public class Main {
 		}
 		for (int i = idx; i < c; i++) {
 			choice[depth] = i;
-			if (alphabet[i] == 'a' || alphabet[i] == 'e' || alphabet[i] == 'i' || alphabet[i] == 'o' || alphabet[i] == 'u') {
+			boolean isVowel = isVowel(i);
+			if (isVowel) {
 				vo++;
 			} else {
 				co++;
 			}
 			makePassword(depth + 1, i + 1);
-			if (alphabet[i] == 'a' || alphabet[i] == 'e' || alphabet[i] == 'i' || alphabet[i] == 'o' || alphabet[i] == 'u') {
+			if (isVowel) {
 				vo--;
 			} else {
 				co--;
 			}
 		}
+	}
+
+	private static boolean isVowel(int i) {
+		return alphabet[i] == 'a' || alphabet[i] == 'e' || alphabet[i] == 'i' || alphabet[i] == 'o' || alphabet[i] == 'u';
 	}
 
 	private static void appendPassword() {
