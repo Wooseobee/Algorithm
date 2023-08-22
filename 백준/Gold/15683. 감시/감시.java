@@ -2,196 +2,123 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static class CCTV {
-        int i;
-        int j;
-        char kind;
 
-        public CCTV(int i, int j, char kind) {
-            this.i = i;
-            this.j = j;
-            this.kind = kind;
-        }
-    }
+	private static int n, m, cctvNum, min = Integer.MAX_VALUE;
+	private static int[][] map;
+	private static List<int[]> cctvList = new ArrayList<>();
+	private static int[] cctvDirs;
+	private static int[] dx = { -1, 0, 1, 0 };
+	private static int[] dy = { 0, 1, 0, -1 };
 
-    static int n, m, min = Integer.MAX_VALUE;
-    static char[][] room;
-    static List<CCTV> cctv = new ArrayList<>();
-    static int cctvCnt = 0;
-    static int[] ways;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String[] in = br.readLine().split(" ");
+		n = Integer.parseInt(in[0]);
+		m = Integer.parseInt(in[1]);
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
+		map = new int[n][m];
 
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
+		for (int i = 0; i < n; i++) {
+			in = br.readLine().split(" ");
+			for (int j = 0; j < m; j++) {
+				map[i][j] = Integer.parseInt(in[j]);
+				if (map[i][j] != 0 && map[i][j] != 6)
+					cctvList.add(new int[] { i, j });
+			}
+		}
 
-        room = new char[n][m];
+		cctvNum = cctvList.size();
+		cctvDirs = new int[cctvNum];
 
-        for (int i = 0; i < n; i++) {
-            String input = br.readLine().replaceAll("\\s", "");
-            room[i] = input.toCharArray();
-            for (int j = 0; j < m; j++) {
-                if (room[i][j] != '0' && room[i][j] != '6') {
-                    cctv.add(new CCTV(i, j, room[i][j]));
-                }
-            }
-        }
-        cctvCnt = cctv.size();
-        ways = new int[cctvCnt];
+		perm(0);
+		System.out.println(min);
+		br.close();
+	}
 
-        search(0);
-        System.out.println(min);
-        br.close();
-    }
+	private static void perm(int depth) {
+		if (depth == cctvNum) {
+			setCCTV();
+			return;
+		}
+		for (int i = 0; i < 4; i++) {
+			cctvDirs[depth] = i;
+			perm(depth + 1);
+		}
+	}
 
-    static void search(int depth) {
-        if (depth == cctvCnt) {
-            int[][] tmp = new int[n][m];
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-                    tmp[i][j] = room[i][j];
-                }
-            }
-            min = Math.min(min, setCCTV(tmp));
-            return;
-        }
-        for (int i = 0; i < 4; i++) {
-            ways[depth] = i;
-            search(depth + 1);
-        }
-    }
+	private static void setCCTV() {
+		int[][] copy = new int[n][m];
+		for (int i = 0; i < n; i++) {
+			copy[i] = Arrays.copyOf(map[i], m);
+		}
 
-    static int setCCTV(int[][] tmp) {
-        for (int i = 0; i < cctvCnt; i++) {
-            CCTV now = cctv.get(i);
-            int x = now.j;
-            int y = now.i;
-            char kind = now.kind;
-            int way = ways[i];
-            switch (kind) {
-                case '5':
-                    for (int k = 0; k < 4; k++) {
-                        setCctvDirection(y, x, k, tmp);
-                    }
-                    break;
-                case '4':
-                    switch (way) {
-                        case 0:
-                            setCctvDirection(y, x, 0, tmp);
-                            setCctvDirection(y, x, 2, tmp);
-                            setCctvDirection(y, x, 3, tmp);
-                            break;
-                        case 1:
-                            setCctvDirection(y, x, 1, tmp);
-                            setCctvDirection(y, x, 2, tmp);
-                            setCctvDirection(y, x, 3, tmp);
-                            break;
-                        case 2:
-                            setCctvDirection(y, x, 0, tmp);
-                            setCctvDirection(y, x, 1, tmp);
-                            setCctvDirection(y, x, 2, tmp);
-                            break;
-                        case 3:
-                            setCctvDirection(y, x, 0, tmp);
-                            setCctvDirection(y, x, 1, tmp);
-                            setCctvDirection(y, x, 3, tmp);
-                            break;
-                    }
-                    break;
-                case '3':
-                    switch (way) {
-                        case 0:
-                            setCctvDirection(y, x, 0, tmp);
-                            setCctvDirection(y, x, 2, tmp);
-                            break;
-                        case 1:
-                            setCctvDirection(y, x, 1, tmp);
-                            setCctvDirection(y, x, 3, tmp);
-                            break;
-                        case 2:
-                            setCctvDirection(y, x, 1, tmp);
-                            setCctvDirection(y, x, 2, tmp);
-                            break;
-                        case 3:
-                            setCctvDirection(y, x, 0, tmp);
-                            setCctvDirection(y, x, 3, tmp);
-                            break;
-                    }
-                    break;
-                case '2':
-                    switch (way) {
-                        case 0:
-                        case 1:
-                            setCctvDirection(y, x, 0, tmp);
-                            setCctvDirection(y, x, 1, tmp);
-                            break;
-                        case 2:
-                        case 3:
-                            setCctvDirection(y, x, 2, tmp);
-                            setCctvDirection(y, x, 3, tmp);
-                            break;
-                    }
-                    break;
-                case '1':
-                    switch (way) {
-                        case 0:
-                            setCctvDirection(y, x, 0, tmp);
-                            break;
-                        case 1:
-                            setCctvDirection(y, x, 1, tmp);
-                            break;
-                        case 2:
-                            setCctvDirection(y, x, 2, tmp);
-                            break;
-                        case 3:
-                            setCctvDirection(y, x, 3, tmp);
-                            break;
-                    }
-                    break;
-            }
-        }
-        return countRoom(tmp);
-    }
+		for (int k = 0; k < cctvNum; k++) {
+			int[] cctv = cctvList.get(k);
+			int i = cctv[0];
+			int j = cctv[1];
+			int kind = copy[i][j];
+			int dir = cctvDirs[k];
+			switch (kind) {
+			case 1:
+				setCCTVbyDir(i, j, dir, copy);
+				break;
+			case 2:
+				setCCTVbyDir(i, j, dir, copy);
+				setCCTVbyDir(i, j, (dir + 2) % 4, copy);
+				break;
+			case 3:
+				setCCTVbyDir(i, j, dir, copy);
+				setCCTVbyDir(i, j, (dir + 1) % 4, copy);
+				break;
+			case 4:
+				setCCTVbyDir(i, j, (dir + 1) % 4, copy);
+				setCCTVbyDir(i, j, (dir + 2) % 4, copy);
+				setCCTVbyDir(i, j, (dir + 3) % 4, copy);
+				break;
+			case 5:
+				for (int l = 0; l < 4; l++) {
+					setCCTVbyDir(i, j, l, copy);
+				}
+				break;
+			default:
+				break;
+			}
 
-    static void setCctvDirection(int i, int j, int direct, int[][] tmp) {
-        switch (direct) {
-            case 0: // 아래 방향
-                for (int l = i + 1; l < n; l++) {
-                    if (tmp[l][j] == '6') break;
-                    else if (tmp[l][j] == '0') tmp[l][j] = '#';
-                }
-                break;
-            case 1: // 위 방향
-                for (int l = i - 1; l >= 0; l--) {
-                    if (tmp[l][j] == '6') break;
-                    else if (tmp[l][j] == '0') tmp[l][j] = '#';
-                }
-                break;
-            case 2: // 왼쪽
-                for (int l = j - 1; l >= 0; l--) {
-                    if (tmp[i][l] == '6') break;
-                    else if (tmp[i][l] == '0') tmp[i][l] = '#';
-                }
-                break;
-            case 3: // 오른쪽:
-                for (int l = j + 1; l < m; l++) {
-                    if (tmp[i][l] == '6') break;
-                    else if (tmp[i][l] == '0') tmp[i][l] = '#';
-                }
-                break;
-        }
-    }
+		}
 
-    static int countRoom(int[][] tmp) {
-        int cnt = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (tmp[i][j] == '0') cnt++;
-            }
-        }
-        return cnt;
-    }
+		min = Math.min(min, countArea(copy));
+	}
+
+	private static void setCCTVbyDir(int i, int j, int dir, int[][] map) {
+		int nI = i + dx[dir];
+		int nJ = j + dy[dir];
+
+		while (in(nI, nJ)) {
+			if (map[nI][nJ] == 0) {
+				map[nI][nJ] = 7;
+			} else if (map[nI][nJ] == 6) {
+				break;
+			}
+			nI = nI + dx[dir];
+			nJ = nJ + dy[dir];
+		}
+	}
+
+	private static boolean in(int nI, int nJ) {
+		return nI >= 0 && nJ >= 0 && nI < n && nJ < m;
+	}
+
+	private static int countArea(int[][] map) {
+		int cnt = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				if (map[i][j] == 0)
+					cnt++;
+			}
+		}
+
+		return cnt;
+	}
+
 }
