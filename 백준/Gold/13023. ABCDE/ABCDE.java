@@ -45,14 +45,16 @@ public class Main {
 	}
 
 	private static void dfs(int i, int cnt) {
-		if(visited[i] || cnt > 5) {
+		if (cnt >= 5) {
+			max = Math.max(max, cnt);
 			return;
 		}
-		max = Math.max(max, cnt);
-		visited[i] = true;
 		for (int next : (List<Integer>) friends[i]) {
-			dfs(next, cnt + 1);
+			if(!visited[next]) {
+				visited[i] = true;
+				dfs(next, cnt + 1);
+				visited[i] = false;
+			}
 		}
-		visited[i] = false;
 	}
 }
