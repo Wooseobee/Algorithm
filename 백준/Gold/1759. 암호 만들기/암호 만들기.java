@@ -2,79 +2,61 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int l, c;
-    static char[] comb;
-    static boolean[] visited;
-    static char[] chars;
-    static Set<String> secretKey = new TreeSet<>();
-    static StringBuilder sb = new StringBuilder();
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	private static int l, c, vo = 0, co = 0;
+	private static char[] alphabet;
+	private static int[] choice;
+	private static StringBuilder sb = new StringBuilder();
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        l = Integer.parseInt(st.nextToken());
-        c = Integer.parseInt(st.nextToken());
+		String[] in = br.readLine().split(" ");
+		l = Integer.parseInt(in[0]);
+		c = Integer.parseInt(in[1]);
 
-        comb = new char[l];
-        chars = new char[c];
-        visited = new boolean[c];
+		choice = new int[l];
+		alphabet = new char[c];
 
-        st = new StringTokenizer(br.readLine());
+		in = br.readLine().split(" ");
+		for (int i = 0; i < c; i++) {
+			alphabet[i] = in[i].charAt(0);
+		}
 
-        for (int i = 0; i < c; i++) {
-            chars[i] = st.nextToken().charAt(0);
-        }
+		Arrays.sort(alphabet);
+		makePassword(0, 0);
 
-        findCombination(0, 0);
+		System.out.println(sb);
+		br.close();
+	}
 
-        for (String s : secretKey) {
-            sb.append(s).append("\n");
-        }
+	private static void makePassword(int depth, int idx) {
+		if (depth == l) {
+			if (vo >= 1 && co >= 2) {
+				appendPassword();
+			}
+			return;
+		}
+		for (int i = idx; i < c; i++) {
+			choice[depth] = i;
+			if (alphabet[i] == 'a' || alphabet[i] == 'e' || alphabet[i] == 'i' || alphabet[i] == 'o' || alphabet[i] == 'u') {
+				vo++;
+			} else {
+				co++;
+			}
+			makePassword(depth + 1, i + 1);
+			if (alphabet[i] == 'a' || alphabet[i] == 'e' || alphabet[i] == 'i' || alphabet[i] == 'o' || alphabet[i] == 'u') {
+				vo--;
+			} else {
+				co--;
+			}
+		}
+	}
 
-        System.out.println(sb);
-        br.close();
-    }
-
-    private static void findCombination(int depth, int idx) {
-        if (depth == l) {
-            if (canBeSecretKey()) {
-                char[] sortArray = comb.clone();
-                Arrays.sort(sortArray);
-                String s = "";
-                for (int i = 0; i < l; i++) {
-                    s += sortArray[i];
-                }
-                secretKey.add(s);
-            }
-            return;
-        }
-        for (int i = idx; i < c; i++) {
-            if (!visited[i]) {
-                visited[i] = true;
-
-                comb[depth] = chars[i];
-                findCombination(depth + 1, i + 1);
-
-                visited[i] = false;
-            }
-        }
-    }
-
-    private static boolean canBeSecretKey() {
-        int cnt1 = 0;
-        boolean cnt2 = false;
-        for (int i = 0; i < l; i++) {
-            if (comb[i] == 'a' || comb[i] == 'e' || comb[i] == 'i' || comb[i] == 'o' || comb[i] == 'u') {
-                cnt2 = true;
-            } else {
-                cnt1++;
-            }
-        }
-        if (cnt1 >= 2 && cnt2) {
-            return true;
-        }
-        return false;
-    }
+	private static void appendPassword() {
+		for (int i = 0; i < l; i++) {
+			sb.append(alphabet[choice[i]]);
+		}
+		sb.append("\n");
+	}
 }
