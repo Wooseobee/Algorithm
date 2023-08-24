@@ -60,9 +60,10 @@ public class Main {
 			for (int[] next : (ArrayList<int[]>) list[now[0]]) {
 				int nextV = next[0];
 				int nextW = next[1];
-				if (dist[nextV] > dist[nowV] + nextW) {
-					pq.add(new int[] {nextV, dist[nowV] + nextW});
-					dist[nextV] = dist[nowV] + nextW;
+				int W = dist[nowV] + nextW;
+				if (dist[nextV] > W) {
+					pq.add(new int[] {nextV, W});
+					dist[nextV] = W;
 				}
 			}
 		}
