@@ -1,86 +1,70 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-
-class Node {
-    int idx;
-    int cost;
-
-    Node(int idx, int cost) {
-        this.idx = idx;
-        this.cost = cost;
-    }
-}
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    static List<List<Node>> graph = new ArrayList<>();
-    static boolean[] visited;
-    static int[] dist;
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	private static int V, e, k;
+	private static List[] list;
+	private static int[] dist;
+	private static boolean[] visited;
 
-        String[] s = br.readLine().split(" ");
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 
-        int n = Integer.parseInt(s[0]);
-        int m = Integer.parseInt(s[1]);
+		String[] in = br.readLine().split(" ");
+		V = Integer.parseInt(in[0]);
+		e = Integer.parseInt(in[1]);
+		k = Integer.parseInt(br.readLine());
 
-        s = br.readLine().split(" ");
-        int x = Integer.parseInt(s[0]);
+		list = new List[V + 1];
+		visited = new boolean[V + 1];
+		for (int i = 1; i <= V; i++) {
+			list[i] = new ArrayList<int[]>();
+		}
+		for (int i = 0; i < e; i++) {
+			in = br.readLine().split(" ");
+			int u = Integer.parseInt(in[0]);
+			int v = Integer.parseInt(in[1]);
+			int w = Integer.parseInt(in[2]);
 
-        visited = new boolean[n + 1];
-        dist = new int[n + 1];
+			list[u].add(new int[] { v, w });
+		}
 
-        for (int i = 0; i < n + 1; i++) {
-            dist[i] = Integer.MAX_VALUE;
-        }
-        dist[x] = 0;
+		dist = new int[V + 1];
+		for (int i = 1; i <= V; i++) {
+			dist[i] = Integer.MAX_VALUE;
+		}
+		dist[k] = 0;
 
-        for (int i = 0; i < n + 1; i++) {
-            graph.add(new ArrayList<>());
-        }
+		dijkstra();
+		for (int i = 1; i <= V; i++) {
+			int d = dist[i];
+			sb.append(d == Integer.MAX_VALUE ? "INF" : d).append("\n");
+		}
 
-        for (int i = 0; i < m; i++) {
-            s = br.readLine().split(" ");
-            int v = Integer.parseInt(s[0]);
-            int w = Integer.parseInt(s[1]);
-            int cost = Integer.parseInt(s[2]);
+		System.out.println(sb);
+		br.close();
+	}
+    
+    private static void dijkstra() {
+		PriorityQueue<int[]> pq = new PriorityQueue<int[]>((o1, o2) -> o1[1] - o2[1]);
+		pq.add(new int[] { k, 0 });
 
-            graph.get(v).add(new Node(w, cost));
-        }
+		while (!pq.isEmpty()) {
+			int[] now = pq.poll();
+			int nowV = now[0];
+			if(!visited[nowV]) visited[nowV] = true;
+			else continue;
 
-        Dijkstra(n, x);
-
-        for (int i = 1; i < n + 1; i++) {
-            if (dist[i] == Integer.MAX_VALUE) {
-                System.out.println("INF");
-            } else {
-                System.out.println(dist[i]);
-            }
-        }
-    }
-
-    public static void Dijkstra(int n, int start) {
-        PriorityQueue<Node> pq = new PriorityQueue<>((o1, o2) -> o1.cost - o2.cost);
-        pq.add(new Node(start, 0));
-
-        while (!pq.isEmpty()) {
-            int now = pq.poll().idx;
-
-            if (!visited[now]) {
-                visited[now] = true;
-            }
-
-            for (Node next : graph.get(now)) {
-                if (dist[next.idx] > dist[now] + next.cost) {
-                    dist[next.idx] = dist[now] + next.cost;
-
-                    pq.add(new Node(next.idx, dist[next.idx]));
-                }
-            }
-        }
-    }
+			for (int[] next : (ArrayList<int[]>) list[now[0]]) {
+				int nextV = next[0];
+				int nextW = next[1];
+				if (dist[nextV] > dist[nowV] + nextW) {
+					pq.add(new int[] {nextV, dist[nowV] + nextW});
+					dist[nextV] = dist[nowV] + nextW;
+				}
+			}
+		}
+	}
 }
