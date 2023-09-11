@@ -3,6 +3,7 @@ import java.util.*;
 class Solution {
     int n;
     int m;
+    // 상 하 우 좌
     int[] dx = {-1, 0, 1, 0};
     int[] dy = {0, -1, 0, 1};
     List<Integer> list = new ArrayList<>();
@@ -32,7 +33,7 @@ class Solution {
 
     private void isCycle(String[] grid, int si, int sj, int sDir) {
         Queue<int[]> q = new LinkedList<>();
-        q.add(new int[]{si, sj, 0, sDir});
+        q.add(new int[]{si, sj, 0, sDir});  // i, j, dist, direction
         while (!q.isEmpty()) {
             int[] now = q.poll();
             int i = now[0];
@@ -59,15 +60,9 @@ class Solution {
                     q.add(new int[]{nI < 0 ? n - 1 : nI % n, nJ < 0 ? m - 1 : nJ % m, dist + 1, (direction + 1) % 4});
                     break;
                 case 'R':
-                    if (direction == 0) {
-                        nI = i + dx[3];
-                        nJ = j + dy[3];
-                        q.add(new int[]{nI < 0 ? n - 1 : nI % n, nJ < 0 ? m - 1 : nJ % m, dist + 1, 3});
-                    } else {
-                        nI = i + dx[direction - 1];
-                        nJ = j + dy[direction - 1];
-                        q.add(new int[]{nI < 0 ? n - 1 : nI % n, nJ < 0 ? m - 1 : nJ % m, dist + 1, direction - 1});
-                    }
+                    nI = i + dx[(direction + 3) % 4];
+                    nJ = j + dy[(direction + 3) % 4];
+                    q.add(new int[]{nI < 0 ? n - 1 : nI % n, nJ < 0 ? m - 1 : nJ % m, dist + 1, (direction + 3) % 4});
                     break;
                 default:
                     break;
