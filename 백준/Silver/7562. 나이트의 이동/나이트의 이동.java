@@ -33,7 +33,7 @@ public class Main {
         br.close();
     }
     private static int bfs() {
-        PriorityQueue<int[]> q = new PriorityQueue<>((o1, o2) -> o1[2] - o2[2]);
+        Queue<int[]> q = new LinkedList<>();
         q.add(new int[]{s[0], s[1], 0});
         map[s[0]][s[1]] = true;
         while(!q.isEmpty()) {
