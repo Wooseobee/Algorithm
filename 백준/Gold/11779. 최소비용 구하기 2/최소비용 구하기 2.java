@@ -30,7 +30,7 @@ public class Main {
 
         for (int i = 1; i <= n; i++) {
             cities[i] = new ArrayList<int[]>();
-            dist[i] = 100_000_000;
+            dist[i] = Integer.MAX_VALUE;
         }
 
         for (int i = 0; i < m; i++) {
@@ -47,18 +47,20 @@ public class Main {
 
         dijkstra();
 
-        System.out.println(dist[e]);
+        int idx = e;
+        StringBuilder sb = new StringBuilder();
+        Stack<Integer> stack = new Stack<>();
+        while(idx != 0) {
+            stack.push(idx);
+            idx = before[idx];
+        }
 
-        ArrayList<Integer> routes = new ArrayList<>();
-        int current = e;
-        while(current != 0) {
-            routes.add(current);
-            current = before[current];
+        System.out.println(dist[e]);
+        System.out.println(stack.size());
+        while (!stack.isEmpty()) {
+            sb.append(stack.pop()).append(" ");
         }
-        System.out.println(routes.size());
-        for(int i = routes.size() - 1; i >= 0; i--) {
-            System.out.print(routes.get(i) + " ");
-        }
+        System.out.println(sb);
 
         br.close();
     }
