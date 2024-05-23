@@ -1,39 +1,48 @@
-import java.util.*;
 import java.io.*;
 
 public class Main {
+
+    private static StringBuilder sb = new StringBuilder();
+
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        String[] in = br.readLine().split(" ");
-        int n = Integer.parseInt(in[0]);
-        int h = Integer.parseInt(in[1]);
-        int[] bottom = new int[h + 2];
-        int[] top = new int[h + 2];
-        for (int i = 1; i <= n / 2; i++) {
-            int a = Integer.parseInt(br.readLine());
-            int b = h - Integer.parseInt(br.readLine()) + 1;
-            bottom[a]++;
-            top[b]++;
-        }
-        for (int i = 1; i <= h; i++) {
-            bottom[i] += bottom[i - 1];
-        }
-
-        for (int i = h; i >= 1; i--) {
-            top[i] += top[i + 1];
-        }
-
-        int min = n;
+        String[] input = br.readLine().split(" ");
+        int N = Integer.parseInt(input[0]);
+        int H = Integer.parseInt(input[1]);
+        int[] up = new int[H + 1];
+        int[] down = new int[H + 1];
+        int[] total = new int[H + 1];
+        int upCount = N / 2;
+        int downCount = N / 2;
         int cnt = 0;
-        for (int i = 1; i < h + 1; i++) {
-            int dif = bottom[h] - bottom[i - 1];
-            dif += top[1] - top[i + 1];
+        int min = Integer.MAX_VALUE;
 
-            if (dif < min) {
-                min = dif;
+        for (int i = 0; i < N; i++) {
+            int y = Integer.parseInt(br.readLine());
+            if (i % 2 == 0) {
+                up[y]++;
+            } else {
+                down[H - y + 1]++;
+            }
+        }
+
+        // 석순 확인
+        for (int i = 1; i <= H; i++) {
+            total[i] += upCount;
+            upCount -= up[i];
+        }
+
+        // 종유석 확인
+        for (int i = H; i >= 1; i--) {
+            total[i] += downCount;
+            downCount -= down[i];
+            if (min > total[i]) {
+                min = total[i];
                 cnt = 1;
-            } else if (dif == min) cnt++;
+            } else if (min == total[i]) {
+                cnt++;
+            }
         }
         System.out.println(min + " " + cnt);
         br.close();
