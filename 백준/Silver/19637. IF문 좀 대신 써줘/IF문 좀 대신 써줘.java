@@ -1,50 +1,55 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
-    static class power {
-        String title;
-        int power;
 
-        public power(String title, int power) {
-            this.title = title;
-            this.power = power;
-        }
-    }
+    private static int n;
+    private static int[] power;
+    private static Map<Integer, String> map = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        List<power> powerList = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
 
-        String[] s = br.readLine().split(" ");
-
-        int n = Integer.parseInt(s[0]);
-        int m = Integer.parseInt(s[1]);
-
+        String[] in = br.readLine().split(" ");
+        n = Integer.parseInt(in[0]);
+        int m = Integer.parseInt(in[1]);
+        power = new int[n];
         for (int i = 0; i < n; i++) {
-            s = br.readLine().split(" ");
-            powerList.add(new power(s[0], Integer.parseInt(s[1])));
+            in = br.readLine().split(" ");
+            String name = in[0];
+            int limit = Integer.parseInt(in[1]);
+
+            map.putIfAbsent(limit, name);
+            power[i] = limit;
         }
 
         for (int i = 0; i < m; i++) {
-            int characterPower = Integer.parseInt(br.readLine());
-            int left = 0, right = n - 1, mid;
+            int character = Integer.parseInt(br.readLine());
 
-            while (left <= right) {
-                mid = (left + right) / 2;
-
-                if (characterPower > powerList.get(mid).power) {
-                    left = mid + 1;
-                } else {
-                    right = mid - 1;
-                }
-            }
-            bw.write(powerList.get(left).title + "\n");
+            int index = findName(character);
+            sb.append(map.get(power[index])).append("\n");
         }
-        bw.flush();
+        System.out.println(sb);
         br.close();
-        bw.close();
+    }
+
+    private static int findName(int now) {
+        int l = 0;
+        int r = n - 1;
+
+        while (l < r) {
+            int mid = (l + r) / 2;
+            int p = power[mid];
+            if (p == now) {
+                return mid;
+            } else if (p > now) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return l;
     }
 }
