@@ -15,6 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         int roomNum = 0;
         // 방정보<방 번호, 처음 입장 플레이어 레벨 + 인원 수>
         Map<Integer, Room> roomInfo = new HashMap<>();
@@ -54,17 +55,18 @@ public class Main {
 
         for (int i = 0; i < roomNum; i++) {
             if (roomInfo.get(i).playerNum == m) {
-                System.out.println("Started!");
+                sb.append("Started!\n");
             } else {
-                System.out.println("Waiting!");
+                sb.append("Waiting!\n");
             }
             List<String[]> players = playerInfo.get(i);
             players.sort(Comparator.comparing(o -> o[1]));
             for (String[] strings : players) {
-                System.out.println(strings[0] + " " + strings[1]);
+                sb.append(strings[0]).append(" ").append(strings[1]).append("\n");
             }
         }
 
+        System.out.println(sb);
         br.close();
     }
 }
