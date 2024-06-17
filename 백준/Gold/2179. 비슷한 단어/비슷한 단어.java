@@ -5,12 +5,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        List<String> strings = new ArrayList<>();
+        Map<Character, List<String[]>> alphabet = new HashMap<>();
 
         int n = Integer.parseInt(br.readLine());
-        int max = 0;
+        int max = 0, idx = 0;
         String s1 = null, s2 = null, first = null, second = null;
-        int idx = 0;
         for (int i = 0; i < n; i++) {
             String s = br.readLine();
             char c = s.charAt(0);
@@ -21,8 +20,16 @@ public class Main {
                 second = s;
             }
 
-            for (int j = 0; j < strings.size(); j++) {
-                String str = strings.get(j);
+            List<String[]> list = alphabet.getOrDefault(c, null);
+            if (list == null) {
+                list = new ArrayList<>();
+                list.add(new String[]{s, String.valueOf(i)});
+                alphabet.put(c, list);
+                continue;
+            }
+            for (int j = 0; j < list.size(); j++) {
+                String[] strings = list.get(j);
+                String str = strings[0];
                 int same = 0;
                 for (int k = 0; k < Math.min(str.length(), len); k++) {
                     char c1 = str.charAt(k);
@@ -39,17 +46,17 @@ public class Main {
                         max = same;
                         s1 = str;
                         s2 = s;
-                        idx = j;
+                        idx = Integer.parseInt(strings[1]);
                     } else if (same == max) {
-                        if (idx > j) {
+                        if (idx > Integer.parseInt(strings[1])) {
                             s1 = str;
                             s2 = s;
-                            idx = i;
+                            idx = Integer.parseInt(strings[1]);
                         }
                     }
                 }
             }
-            strings.add(s);
+            list.add(new String[]{s, String.valueOf(i)});
         }
 
         if (s1 == null) {
