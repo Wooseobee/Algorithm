@@ -4,6 +4,7 @@ import java.util.*;
 public class Main {
 
     private static int n;
+    private static boolean found;
     private static int[] ans;
     private static boolean[] visited;
     private static String[] in;
@@ -25,11 +26,15 @@ public class Main {
     }
 
     private static void backTracking(int depth) {
+        if (found) {
+            return;
+        }
         if (depth == n) {
             if (checkLine()) {
                 for (int j = 0; j < n; j++) {
                     sb.append(ans[j] + 1).append(" ");
                 }
+                found = true;
             }
             return;
         }
