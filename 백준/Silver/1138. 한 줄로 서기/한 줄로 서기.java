@@ -3,68 +3,22 @@ import java.util.*;
 
 public class Main {
 
-    private static int n;
-    private static boolean found;
-    private static int[] ans;
-    private static boolean[] visited;
-    private static String[] in;
-    private static StringBuilder sb = new StringBuilder();
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        int n = Integer.parseInt(br.readLine());
+        String[] in = br.readLine().split(" ");
 
-        n = Integer.parseInt(br.readLine());
-        in = br.readLine().split(" ");
-        ans = new int[n];
-        visited = new boolean[n];
-        Arrays.fill(ans, -1);
+        List<Integer> ans = new ArrayList<>();
+        for (int i = n - 1; i >= 0; i--) {
+            ans.add(Integer.parseInt(in[i]), i + 1);
+        }
 
-        backTracking(0);
+        for (int i = 0; i < n; i++) {
+            sb.append(ans.get(i)).append(" ");
+        }
 
         System.out.print(sb);
         br.close();
-    }
-
-    private static void backTracking(int depth) {
-        if (found) {
-            return;
-        }
-        if (depth == n) {
-            if (checkLine()) {
-                for (int j = 0; j < n; j++) {
-                    sb.append(ans[j] + 1).append(" ");
-                }
-                found = true;
-            }
-            return;
-        }
-
-        for (int j = 0; j < n; j++) {
-            if (!visited[j]) {
-                visited[j] = true;
-                ans[depth] = j;
-                backTracking(depth + 1);
-                visited[j] = false;
-            }
-        }
-    }
-
-    private static boolean checkLine() {
-        for (int i = 0; i < n; i++) {
-            int left = Integer.parseInt(in[ans[i]]);
-
-            int cnt = 0;
-            for (int j = 0; j < i; j++) {
-                int now = ans[j];
-                if (now > ans[i]) {
-                    cnt++;
-                }
-            }
-
-            if (cnt != left) {
-                return false;
-            }
-        }
-        return true;
     }
 }
