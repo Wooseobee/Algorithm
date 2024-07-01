@@ -3,30 +3,29 @@ import java.util.*;
 
 public class Main {
 
-    private static List<String> ans[];
+    private static final char[] op = new char[]{'+', '-', ' '};
+    private static List<String>[] ans;
+    private static StringBuilder sb = new StringBuilder();
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int t = Integer.parseInt(br.readLine());
         ans = new List[t];
-        int[] tc = new int[t];
-        for (int i = 0; i < t; i++) {
-            tc[i] = Integer.parseInt(br.readLine());
-            ans[i] = new ArrayList<>();
-        }
 
         for (int i = 0; i < t; i++) {
-            findZero(i, new StringBuilder(), 1, tc[i]);
+            ans[i] = new ArrayList<>();
+            findZero(i, new StringBuilder(), 1, Integer.parseInt(br.readLine()));
         }
 
         for (int i = 0; i < t; i++) {
             Collections.sort(ans[i]);
             for (String s : ans[i]) {
-                System.out.println(s);
+                sb.append(s).append("\n");
             }
-            System.out.println();
+            sb.append("\n");
         }
+        System.out.println(sb);
         br.close();
     }
 
@@ -39,12 +38,10 @@ public class Main {
             return;
         }
         str.append(i);
-        findZero(t, str.append("+"), i + 1, n);
-        str.delete(str.length() - 2, str.length());
-        findZero(t, str.append("-"), i + 1, n);
-        str.delete(str.length() - 2, str.length());
-        findZero(t, str.append(" "), i + 1, n);
-        str.delete(str.length() - 2, str.length());
+        for (int j = 0; j < 3; j++) {
+            findZero(t, str.append(op[j]), i + 1, n);
+            str.delete(str.length() - 2, str.length());
+        }
     }
 
     private static boolean isZero(StringBuilder str) {
@@ -65,4 +62,5 @@ public class Main {
 
         return total == 0;
     }
+
 }
