@@ -1,96 +1,60 @@
 import java.util.*;
+import java.awt.Point;
 
 class Solution {
     public int solution(int[][] points, int[][] routes) {
-        int n = points.length;
-        int x = routes.length; // 로봇 수
-        int[][] map = new int[101][101]; 
-
-        // 포인트 번호 -> (r, c) 매핑
-        Map<Integer, int[]> pointMap = new HashMap<>();
-        for (int i = 0; i < n; i++) {
-            pointMap.put(i + 1, new int[] { points[i][0], points[i][1] });
-        }
-
-        // 로봇 상태 초기화
-        int[][] robotNow = new int[x][2];
-        int[] nextTarget = new int[x];
-        boolean[] finished = new boolean[x];
-
-        // 모든 로봇의 시작 위치 설정
-        for (int i = 0; i < x; i++) {
-            int[] start = pointMap.get(routes[i][0]);
-            robotNow[i][0] = start[0];
-            robotNow[i][1] = start[1];
-            nextTarget[i] = 1;
-            map[start[0]][start[1]]++;
-        }
-
-        int activeRobots = x;
         int answer = 0;
+        Map<Integer, List<Point>> map = new HashMap<>();
 
-        answer += countCollisions(map, robotNow, finished);
+        for (int i = 0; i < routes.length; i++) {
+            int level = 1;
+            for (int j = 1; j < routes[i].length; j++) {
+                int currentX = points[routes[i][j - 1] - 1][0];
+                int currentY = points[routes[i][j - 1] - 1][1];
+                int targetX = points[routes[i][j] - 1][0];
+                int targetY = points[routes[i][j] - 1][1];
 
-        while (activeRobots > 0) {
-            for (int i = 0; i < x; i++) {
-                if (finished[i]) continue;
+                while (currentX != targetX) {
+                    List<Point> pList = map.getOrDefault(level, new ArrayList<>());
+                    pList.add(new Point(currentX, currentY));
+                    map.put(level++, pList);
 
-                int[] target = pointMap.get(routes[i][nextTarget[i]]);
-
-                if (robotNow[i][0] == target[0] && robotNow[i][1] == target[1]) {
-                    continue;
+                    if (currentX > targetX) 
+                        currentX--;
+                    else 
+                        currentX++;
                 }
 
-                map[robotNow[i][0]][robotNow[i][1]]--;
+                while (currentY != targetY) {
+                    List<Point> pList = map.getOrDefault(level, new ArrayList<>());
+                    pList.add(new Point(currentX, currentY));
+                    map.put(level++, pList);
 
-                if (robotNow[i][0] > target[0]) {
-                    robotNow[i][0]--;
-                } else if (robotNow[i][0] < target[0]) {
-                    robotNow[i][0]++;
-                } else if (robotNow[i][1] > target[1]) {
-                    robotNow[i][1]--;
-                } else if (robotNow[i][1] < target[1]) {
-                    robotNow[i][1]++;
+                    if (currentY > targetY) 
+                        currentY--;
+                    else 
+                        currentY++;
                 }
-
-                map[robotNow[i][0]][robotNow[i][1]]++;
-
-                if (robotNow[i][0] == target[0] && robotNow[i][1] == target[1]) {
-                    if (nextTarget[i] < routes[i].length - 1) {
-                        nextTarget[i]++;
-                    } else {
-                        finished[i] = true;
-                    }
-                }
-            }
-
-            answer += countCollisions(map, robotNow, finished);
-
-            for (int i = 0; i < x; i++) {
-                if (finished[i]) {
-                    int r = robotNow[i][0];
-                    int c = robotNow[i][1];
-                    if (map[r][c] > 0) {
-                        map[r][c]--;
-                    }
-                    finished[i] = false;
-                    activeRobots--;
+                if(j == routes[i].length -1){
+                    List<Point> pList = map.getOrDefault(level, new ArrayList<>());
+                    pList.add(new Point(currentX, currentY));
+                    map.put(level, pList); 
                 }
             }
         }
 
+        for (Map.Entry<Integer, List<Point>> entry : map.entrySet()) {
+            List<Point> list = entry.getValue();
+            Map<Point, Integer> pmap = new HashMap<>();
+            for (Point p : list) {
+                pmap.put(p, pmap.getOrDefault(p, 0) + 1);
+            }
+            for (Map.Entry<Point, Integer> pentry : pmap.entrySet()) {
+                if (pentry.getValue() > 1) {
+                    answer++;
+                }
+            }
+        }
         return answer;
-    }
-
-    private int countCollisions(int[][] map, int[][] robotNow, boolean[] finished) {
-        int count = 0;
-        for (int r = 0; r < 101; r++) {
-            for (int c = 0; c < 101; c++) {
-                if (map[r][c] > 1) {
-                    count++;
-                }
-            }
-        }
-        return count;
     }
 }
