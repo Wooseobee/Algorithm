@@ -36,9 +36,12 @@ public class Main {
 
         dfs(r);
 
+        StringBuilder sb = new StringBuilder();
+
         for (int i = 1; i <= n; i++) {
-            System.out.println(order[i]);
+            sb.append(order[i]).append("\n");
         }
+        System.out.println(sb);
         br.close();
     }
 
