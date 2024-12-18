@@ -29,7 +29,7 @@ public class Main {
         }
 
         for (int i = 1; i <= n; i++) {
-            bfs(i, new boolean[n + 1]);
+            dfs(i, new boolean[n + 1]);
         }
 
         int max = 0;
@@ -44,18 +44,13 @@ public class Main {
         br.close();
     }
 
-    private static void bfs(int i, boolean[] visited) {
-        Queue<Integer> q = new LinkedList<>();
-        q.add(i);
+    private static void dfs(int i, boolean[] visited) {
         visited[i] = true;
-        while (!q.isEmpty()) {
-            int now = q.poll();
-            for (int next : list[now]) {
-                if (!visited[next]) {
-                    visited[next] = true;
-                    cntArr[next]++;
-                    q.add(next);
-                }
+        for (int next : list[i]) {
+            if (!visited[next]) {
+                visited[next] = true;
+                cntArr[next]++;
+                dfs(next, visited);
             }
         }
     }
